@@ -1,4 +1,4 @@
-function showloader() {
+function showloader(destination) {
   // Create a loading div if it doesn't exist
   if (!document.getElementById("loading-screen")) {
     var loader = document.createElement("div");
@@ -15,6 +15,11 @@ function showloader() {
     loader.innerHTML = "<div style='color: white; font-size: 24px;'>Loading...</div>";
     document.body.appendChild(loader);
   }
+
+  // Wait for 5 seconds (5000 milliseconds) before redirecting
+  setTimeout(function() {
+    window.location.href = destination; // Change the page
+  }, 5000);
 }
 
 // To hide the loader after content is loaded
