@@ -3,11 +3,31 @@ body {
   color: #FFFFFF; /* Light text color for contrast */
   font-family: 'Patrick Hand', Patrick Hand, cursive;
 }
+/* For all links */
+a {
+  text-decoration: none; /* Removes the underline */
+  color: inherit; /* Inherits color from parent element */
+}
+
+/* For visited links */
+a:visited {
+  color: inherit; /* Set to the same color as unvisited links */
+}
+
+/* For hover state */
+a:hover {
+  color: blue; /* Change this to your desired hover color */
+}
+
+/* For active state */
+a:active {
+  color: inherit; /* Change this to your desired active color */
+}
 .top-bar {
   background-color: #000d3c; /* Dark top bar */
   padding: 10px;
   display: flex;
-  justify-content: horizontal;
+  justify-content: center;
 }
 .top-bar-tab1, .top-bar-tab2, .top-bar-tab3, .top-bar-tab4, .top-bar-tab5, .top-bar-tab6 {
   background-color: #000d3c; /* Dark top bar */
@@ -28,8 +48,4 @@ body {
 }
 .loader.show {
   opacity: 100; /* Make the loader opaque when shown */
-}
-a {
-  text-decoration: none; /* Removes the underline */
-  color: inherit; /* Inherits color from parent element */
 }
