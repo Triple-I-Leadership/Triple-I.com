@@ -7,7 +7,7 @@ body {
   background-color: #000d3c; /* Dark top bar */
   padding: 10px;
   display: flex;
-  justify-content: center;
+  justify-content: horizontal;
 }
 .top-bar-tab1, .top-bar-tab2, .top-bar-tab3, .top-bar-tab4, .top-bar-tab5, .top-bar-tab6 {
   background-color: #000d3c; /* Dark top bar */
