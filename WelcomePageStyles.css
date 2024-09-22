@@ -6,22 +6,25 @@ body {
 /* For all links */
 a {
   text-decoration: none; /* Removes the underline */
-  color: inherit; /* Inherits color from parent element */
+  color: none; /* Inherits color from parent element */
 }
 
 /* For visited links */
 a:visited {
-  color: inherit; /* Set to the same color as unvisited links */
+  text-decoration: none;
+  color: none; /* Set to the same color as unvisited links */
 }
 
 /* For hover state */
 a:hover {
+  text-decoration: none;
   color: blue; /* Change this to your desired hover color */
 }
 
 /* For active state */
 a:active {
-  color: inherit; /* Change this to your desired active color */
+  text-decoration: none;
+  color: none; /* Change this to your desired active color */
 }
 .top-bar {
   background-color: #000d3c; /* Dark top bar */
