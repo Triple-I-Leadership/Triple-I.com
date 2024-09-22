@@ -29,3 +29,7 @@ body {
 .loader.show {
   opacity: 100; /* Make the loader opaque when shown */
 }
+a {
+  text-decoration: none; /* Removes the underline */
+  color: inherit; /* Inherits color from parent element */
+}
