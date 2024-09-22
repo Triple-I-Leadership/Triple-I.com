@@ -21,11 +21,3 @@ function showloader(destination) {
     window.location.href = destination; // Change the page
   }, 5000);
 }
-
-// To hide the loader after content is loaded
-function hideloader() {
-  var loader = document.getElementById("loading-screen");
-  if (loader) {
-    loader.style.display = "none";
-  }
-}
