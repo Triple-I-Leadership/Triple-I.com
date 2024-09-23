@@ -12,7 +12,7 @@ a {
 /* For visited links */
 a:visited {
   text-decoration: none;
-  color: none; /* Set to the same color as unvisited links */
+  color: #FFFFFF; /* Set to the same color as unvisited links */
 }
 
 /* For hover state */
