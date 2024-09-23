@@ -24,7 +24,7 @@ a:hover {
 /* For active state */
 a:active {
   text-decoration: none;
-  color: none; /* Change this to your desired active color */
+  color: #FFFFFF; /* Change this to your desired active color */
 }
 .top-bar {
   background-color: #000d3c; /* Dark top bar */
