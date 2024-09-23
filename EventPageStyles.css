@@ -3,6 +3,10 @@ body {
   color: #FFFFFF; /* Light text color for contrast */
   font-family: 'Patrick Hand', Patrick Hand, cursive;
 }
+a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
 .top-bar {
   background-color: #000d3c; /* Dark top bar */
   padding: 10px;
