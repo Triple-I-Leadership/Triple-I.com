@@ -21,6 +21,3 @@ function showloader(destination) {
     window.location.href = destination; // Change the page
   }, 5000);
 }
-function goback() {
-  window.location.href = '/';
-}
