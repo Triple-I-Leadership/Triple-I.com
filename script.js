@@ -19,5 +19,5 @@ function showloader(destination) {
   // Wait for 5 seconds (5000 milliseconds) before redirecting
   setTimeout(function() {
     window.location.href = destination; // Change the page
-  }, 5000);
+  }, 2500);
 }
