@@ -8,7 +8,7 @@ function showloader(destination) {
     loader.style.left = "0";
     loader.style.width = "100%";
     loader.style.height = "100%";
-    loader.style.backgroundColor = "rgba(0,0,0,0.5)";
+    loader.style.backgroundColor = "rgba(75,156,211,1)";
     loader.style.display = "flex";
     loader.style.alignItems = "center";
     loader.style.justifyContent = "center";
