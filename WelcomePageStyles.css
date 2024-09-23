@@ -32,7 +32,7 @@ a:active {
   display: flex;
   justify-content: center;
 }
-.top-bar-tab1, .top-bar-tab2, .top-bar-tab3, .top-bar-tab4, .top-bar-tab5, .top-bar-tab6 {
+.top-bar-tab1, .top-bar-tab2, .top-bar-tab3, .top-bar-tab4, .top-bar-tab5, .top-bar-tab6, .top-bar-tab-logo {
   background-color: #000d3c; /* Dark top bar */
   padding: 10px;
   display: inline-block; /* Allow for inline elements to behave like block elements */
