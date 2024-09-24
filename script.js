@@ -39,3 +39,25 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         document.getElementById('error-message').textContent = 'Invalid username or password.';
     }
 });
+
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+
+document.getElementById('next').addEventListener('click', function() {
+    changeSlide(1);
+});
+
+document.getElementById('prev').addEventListener('click', function() {
+    changeSlide(-1);
+});
+
+function changeSlide(direction) {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + direction + slides.length) % slides.length;
+    slides[currentSlide].classList.add('active');
+}
+
+// Optional: Automatically change slides every 5 seconds
+setInterval(() => {
+    changeSlide(1);
+}, 5000);
