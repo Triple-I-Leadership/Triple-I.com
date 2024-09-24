@@ -19,5 +19,23 @@ function showloader(destination) {
   // Wait for 5 seconds (5000 milliseconds) before redirecting
   setTimeout(function() {
     window.location.href = destination; // Change the page
-  }, 2500);
+  }, 1250);
 }
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // For demo purposes, let's assume a static username and password
+    const validUsername = 'admin';
+    const validPassword = 'password123';
+
+    if (username === validUsername && password === validPassword) {
+        alert('Login successful!');
+        window.location.href = 'index.html'
+    } else {
+        document.getElementById('error-message').textContent = 'Invalid username or password.';
+    }
+});
