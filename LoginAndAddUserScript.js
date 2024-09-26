@@ -16,21 +16,30 @@
 
       await signUpAndAddUser(username, email, password);
     }
-  // Function to sign up a user with Supabase Auth
-  async function signUpUser(username, email, password) {
-    const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password
-    });
+    async function signUpAndAddUser(username, email, password) {
+      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        email: email,
+        password: password
+      });
 
-    if (error) {
-      console.error('Error signing up user:', error.message);
-      alert('Failed to sign up user: ' + error.message);
-    } else {
-      console.log('User signed up:', data);
+      if (signUpError) {
+        console.error('Error during sign-up:', signUpError.message);
+        alert('Sign-up failed: ' + signUpError.message);
+      } else {
+        console.log('User signed up successfully:', signUpData);
 
-      // Now you can also store the username (alongside email) in the `users` table
-      await addUserToDatabase(username, email);
+        const { data: insertData, error: insertError } = await supabase
+          .from('users')
+          .insert([{ id: signUpData.user.id, username: username, email: email }]);
+
+        if (insertError) {
+          console.error('Error adding user to table:', insertError.message);
+          alert('Failed to add user to table: ' + insertError.message);
+        } else {
+          console.log('User added to the users table:', insertData);
+          alert('Sign-up successful and user added to the table!');
+        }
+      }
     }
   }
   // Function to add the user to your `users` table (optional)
