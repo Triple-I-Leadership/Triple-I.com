@@ -21,25 +21,6 @@ function showloader(destination) {
     window.location.href = destination; // Change the page
   }, 1250);
 }
-
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    // For demo purposes, let's assume a static username and password
-    const validUsername = 'admin';
-    const validPassword = 'password123';
-
-    if (username === validUsername && password === validPassword) {
-        alert('Login successful!');
-        window.location.href = 'index.html'
-    } else {
-        document.getElementById('error-message').textContent = 'Invalid username or password.';
-    }
-});
-
 let currentSlide = 0;
 const slides = document.querySelectorAll('.slide');
 
