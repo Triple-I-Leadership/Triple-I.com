@@ -1,7 +1,7 @@
 body {
   background-color: #4b9cd3; /* Dark background */
   color: #FFFFFF; /* Light text color for contrast */
-  font-family: 'Patrick Hand', Patrick Hand, cursive;
+  font-family: none; /* TBD for now :P */
 }
 /* For all links */
 a {
