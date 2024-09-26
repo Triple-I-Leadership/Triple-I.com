@@ -3,20 +3,19 @@
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
   const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-  // Attach the form submit event listener to prevent default behavior
-  document.getElementById('signupForm').addEventListener('submit', handleSignup);
+  window.onload = function() {
+    document.getElementById('signupForm').addEventListener('submit', handleSignup);
 
-  async function handleSignup(event) {
-    // Prevent the default form submission (which causes page reload)
-    event.preventDefault();
+    async function handleSignup(event) {
+      console.log("Form submitted, preventing default...");
+      event.preventDefault();
 
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
 
-    // Call the function to sign up the user and add their info to the table
-    await signUpAndAddUser(username, email, password);
-  }
+      await signUpAndAddUser(username, email, password);
+    }
   // Function to sign up a user with Supabase Auth
   async function signUpUser(username, email, password) {
     const { data, error } = await supabase.auth.signUp({
