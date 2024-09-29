@@ -8,8 +8,15 @@
 </head>
 <body>
     <div class="login-container">
-        <h1>Login</h1>
-        <p id="error-message" class="error-message"></p>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="errorMessage" style="color: red;"></p>
     </div>
     <script src="LoginAndAddUserScript.js"></script>
 </body>
