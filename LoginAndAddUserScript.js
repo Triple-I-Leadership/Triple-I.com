@@ -28,21 +28,21 @@
 
   // Call the checkSession function when the page loads
   window.onload = checkSession;
-  // Function to log in a user
-  async function loginUser(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-    if (error) {
-      console.error('Login failed:', error.message);
-      alert('Login failed: ' + error.message);
-    } else {
-      console.log('User logged in:', data);
-      alert('Login successful!');
+            const { user, session, error } = await supabase.auth.signIn({
+                email: email,
+                password: password,
+            });
 
-      // Redirect the user to a new page or perform any other action
-      window.location.href = 'WelcomePageMember.html';  // Example redirect after successful login
-    }
-  }
+            if (error) {
+                document.getElementById('errorMessage').innerText = error.message;
+            } else {
+                console.log('User logged in:', user);
+                window.location.href = 'index.html'
+            }
+        });
