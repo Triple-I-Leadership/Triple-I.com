@@ -19,6 +19,55 @@
 
     <button type="submit">Add User</button>
   </form>
+        <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+        // Initialize Supabase client
+        const supabaseUrl = 'https://YOUR-SUPABASE-URL.supabase.co';
+        const supabaseKey = 'YOUR-SUPABASE-ANON-KEY';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+
+        // Add an event listener to wait for DOM to load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('signupForm').addEventListener('submit', handleSignup);
+        });
+
+        // Function to handle sign-up
+        async function handleSignup(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            await signUpAndAddUser(username, email, password);
+        }
+
+        async function signUpAndAddUser(username, email, password) {
+            const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+                email: email,
+                password: password
+            });
+
+            if (signUpError) {
+                console.error('Sign-up error:', signUpError.message);
+                alert('Sign-up failed: ' + signUpError.message);
+            } else {
+                console.log('User signed up successfully:', signUpData);
+
+                const { data: insertData, error: insertError } = await supabase
+                    .from('users')
+                    .insert([{ id: signUpData.user.id, username: username, email: email }]);
+
+                if (insertError) {
+                    console.error('Error adding user to table:', insertError.message);
+                    alert('Failed to add user to table: ' + insertError.message);
+                } else {
+                    console.log('User added to the users table:', insertData);
+                    alert('Sign-up successful and user added to the table!');
+                }
+            }
+        }
+    </script>
 </body>
-    <script type=module src='LoginAndAddUserScript.js'></script>
 </html>
