@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; }
+    .sidebar { width: 200px; background-color: #333; color: white; height: 100vh; position: fixed; padding-top: 20px; }
+    .sidebar a { color: white; padding: 15px; text-decoration: none; display: block; }
+    .sidebar a:hover { background-color: #575757; }
+    .main { margin-left: 200px; padding: 20px; }
+    .card { background-color: #f2f2f2; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Dashboard</h2>
+    <a href="#users">Users</a>
+    <a href="#metrics">Metrics</a>
+    <a href="#content">Content</a>
+  </div>
 
+  <div class="main">
+    <h1>Welcome to Your Dashboard</h1>
+    <div id="users" class="card">
+      <h2>User Management</h2>
+      <!-- User management section, e.g., list of users, add/edit/delete -->
+    </div>
+    <div id="metrics" class="card">
+      <h2>Metrics</h2>
+      <!-- Analytics and KPIs, such as user growth or recent activity -->
+    </div>
+    <div id="content" class="card">
+      <h2>Content Management</h2>
+      <!-- Content management, e.g., recent posts, comments -->
+    </div>
+  </div>
+</body>
+</html>
