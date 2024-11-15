@@ -19,7 +19,7 @@ async function showUsers() {
 
   // Fetch active session data from the 'user_sessions' table (if any)
   const { data: sessions, error: sessionsError } = await supabase
-    .from('UserSessions')
+    .from('usersessions')
     .select('user_id, is_active, created_at'); // Get active session details
 
   if (sessionsError) {
@@ -87,7 +87,7 @@ async function checkSession() {
     
     // Insert or update the session in the 'user_sessions' table
     const { data: sessionData, error: sessionError } = await supabase
-      .from('user_sessions')
+      .from('usersessions')
       .upsert([
         {
           user_id: userId,
