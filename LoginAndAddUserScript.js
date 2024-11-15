@@ -41,7 +41,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const { user, session, error } = await supabase.auth.signIn({
+            const { user, session, error } = await supabase.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
