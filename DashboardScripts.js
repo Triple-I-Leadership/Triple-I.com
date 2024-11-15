@@ -67,8 +67,8 @@ async function showUsers() {
   });
 }
 
-// Call the showUsers function to populate the table when the page loads
-window.onload = showUsers;
+// Add event listener to the "Show Users" button
+document.getElementById('showUsersBtn').addEventListener('click', showUsers);
 
 async function checkSession() {
   // Get the current session from Supabase
