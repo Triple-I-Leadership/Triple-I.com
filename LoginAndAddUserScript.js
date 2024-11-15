@@ -20,19 +20,49 @@ const supabase = createClient(supabaseUrl, supabaseKey);
       alert('User added successfully!');
     }
   }
-  async function checkSession() {
-    const { data, error } = await supabase.auth.getSession();
-    
-    if (data.session) {
-      console.log('User is logged in:', data.session.user);
-      // You can now access the user's info and render it on the page
-    } else {
-      console.log('No user is logged in');
-      // Redirect to login page if no user is logged in
-      window.location.href = 'login.html';
-    }
+async function checkSession() {
+  // Get the current session from Supabase
+  const { data, error } = await supabase.auth.getSession();
+  
+  if (error) {
+    console.error("Error getting session:", error);
+    return;
   }
 
+  if (data.session) {
+    console.log('User is logged in:', data.session.user);
+
+    // Check if the session already exists in the user_sessions table
+    const userId = data.session.user.id;
+    
+    // Insert or update the session in the 'user_sessions' table
+    const { data: sessionData, error: sessionError } = await supabase
+      .from('user_sessions')
+      .upsert([
+        {
+          user_id: userId,
+          is_active: true,
+          updated_at: new Date(),
+        }
+      ])
+      .eq('user_id', userId)
+      .single(); // Ensure that only one row is returned
+
+    if (sessionError) {
+      console.error("Error inserting/updating session:", sessionError);
+    } else {
+      console.log("Session updated for user:", sessionData);
+    }
+
+    // You can now access the user's info and render it on the page
+    // You can fetch additional details if needed using sessionData
+  } else {
+    console.log('No user is logged in');
+    
+    // Redirect to login page if no user is logged in
+    window.location.href = 'login.html';
+  }
+}
   // Call the checkSession function when the page loads
   window.onload = checkSession;
         // Handle form submission
