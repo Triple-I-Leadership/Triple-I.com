@@ -5,42 +5,70 @@ const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Function to fetch and display users
-async function fetchUsers() {
-  // Get users from Supabase
-  const { data: users, error } = await supabase
+// Function to display all users and their session info
+async function showUsers() {
+  // Fetch all users from the 'users' table
+  const { data: users, error: usersError } = await supabase
     .from('users')
-    .select('id, username, email'); // Adjust fields as per your table structure
+    .select('id, username, email'); // Retrieve basic user details
 
-  if (error) {
-    console.error("Error fetching users:", error);
+  if (usersError) {
+    console.error('Error fetching users:', usersError);
     return;
   }
 
-  // Select the container where users will be displayed
-  const userListContainer = document.getElementById('UserList');
-  userListContainer.innerHTML = ''; // Clear any existing content
+  // Fetch active session data from the 'user_sessions' table (if any)
+  const { data: sessions, error: sessionsError } = await supabase
+    .from('user_sessions')
+    .select('user_id, is_active, created_at'); // Get active session details
 
-  // Create a list of users
+  if (sessionsError) {
+    console.error('Error fetching session data:', sessionsError);
+    return;
+  }
+
+  // Get the user table body
+  const userTableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+
+  // Clear the existing user list (if any)
+  userTableBody.innerHTML = '';
+
+  // Loop through the users and display each user's session status
   users.forEach(user => {
-    const userDiv = document.createElement('div');
-    userDiv.classList.add('user-item');
-    userDiv.innerHTML = `
-      <p><strong>Username:</strong> ${user.username}</p>
-      <p><strong>Email:</strong> ${user.email}</p>
-      <button onclick="viewUser(${user.id})">View</button>
-    `;
-    userListContainer.appendChild(userDiv);
+    // Find the active session for this user
+    const session = sessions.find(s => s.user_id === user.id);
+    const isActive = session ? session.is_active : false; // Check if user has an active session
+    const sessionStartTime = session ? session.created_at : 'N/A'; // If no active session, show N/A
+
+    // Create a new row for the user
+    const row = document.createElement('tr');
+
+    // Create table data cells for username, email, session active status, and session start time
+    const usernameCell = document.createElement('td');
+    usernameCell.textContent = user.username;
+
+    const emailCell = document.createElement('td');
+    emailCell.textContent = user.email;
+
+    const sessionActiveCell = document.createElement('td');
+    sessionActiveCell.textContent = isActive ? 'Yes' : 'No';
+
+    const loginTimeCell = document.createElement('td');
+    loginTimeCell.textContent = sessionStartTime;
+
+    // Append all cells to the row
+    row.appendChild(usernameCell);
+    row.appendChild(emailCell);
+    row.appendChild(sessionActiveCell);
+    row.appendChild(loginTimeCell);
+
+    // Append the row to the table body
+    userTableBody.appendChild(row);
   });
 }
 
-// Function to handle viewing user details (optional)
-function viewUser(userId) {
-  alert(`View details for user with ID: ${userId}`);
-}
-
-// Fetch and display users when the page loads
-window.onload = fetchUsers;
+// Call the showUsers function to populate the table when the page loads
+window.onload = showUsers;
 
 async function checkSession() {
   // Get the current session from Supabase
