@@ -50,7 +50,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
                 document.getElementById('errorMessage').innerText = error.message;
             } else {
                 console.log('User logged in:', user);
-                window.location.href = 'index.html'
+                window.location.href = 'Dashboard.html'
             }
         });
 const hashParams = new URLSearchParams(window.location.hash.substring(1));
