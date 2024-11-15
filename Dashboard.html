@@ -11,6 +11,10 @@
     .sidebar a:hover { background-color: #575757; }
     .main { margin-left: 200px; padding: 20px; }
     .card { background-color: #f2f2f2; padding: 20px; margin-bottom: 20px; border-radius: 5px; }
+    table { width: 100%; border-collapse: collapse; }
+    table, th, td { border: 1px solid #ddd; }
+    th, td { padding: 8px 12px; text-align: left; }
+    th { background-color: #f2f2f2; }
   </style>
 </head>
 <body>
@@ -28,6 +32,19 @@
       <h2>User Management</h2>
       <div id="UserList" class="card">
         <h2>User List</h2>
+          <table id="userTable">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Session Active</th>
+              <th>Session Start Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Users will be added here dynamically -->
+          </tbody>
+        </table>
     </div>
     <div id="metrics" class="card">
       <h2>Metrics</h2>
