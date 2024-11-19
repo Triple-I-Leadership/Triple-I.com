@@ -86,3 +86,4 @@ async function checkSession() {
     window.location.href = 'login.html';
   }
 }
+window.onload = checkSession()
