@@ -64,7 +64,7 @@ async function checkSession() {
   }
 }
   // Call the checkSession function when the page loads
-  window.onload = checkSession;
+  window.onload = checkSession();
         // Handle form submission
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
