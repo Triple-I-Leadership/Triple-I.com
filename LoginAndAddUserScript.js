@@ -22,40 +22,37 @@ const supabase = createClient(supabaseUrl, supabaseKey);
   }
 async function checkSession() {
   // Get the current session from Supabase
-  const { data, error } = await supabase.auth.getSession();
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
   
-  if (error) {
-    console.error("Error getting session:", error);
+  if (sessionError) {
+    console.error("Error getting session:", sessionError);
     return;
   }
 
-  if (data.session) {
-    console.log('User is logged in:', data.session.user);
+  if (sessionData.session) {
+    console.log('User is logged in:', sessionData.session.user);
 
-    // Check if the session already exists in the user_sessions table
-    const userId = data.session.user.id;
-    
-    // Insert or update the session in the 'user_sessions' table
-    const { data: sessionData, error: sessionError } = await supabase
-      .from('user_sessions')
-      .upsert([
-        {
+    // Extract user information
+    const userId = sessionData.session.user.id;
+
+    try {
+      // Insert or update the session in the 'user_sessions' table
+      const { data, error } = await supabase
+        .from('user_sessions')
+        .upsert({
           user_id: userId,
           is_active: true,
-          updated_at: new Date(),
-        }
-      ])
-      .eq('user_id', userId)
-      .single(); // Ensure that only one row is returned
+          updated_at: new Date().toISOString(), // Use ISO string for timestamp
+        });
 
-    if (sessionError) {
-      console.error("Error inserting/updating session:", sessionError);
-    } else {
-      console.log("Session updated for user:", sessionData);
+      if (error) {
+        console.error("Error inserting/updating session:", error);
+      } else {
+        console.log("Session updated for user:", data);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
     }
-
-    // You can now access the user's info and render it on the page
-    // You can fetch additional details if needed using sessionData
   } else {
     console.log('No user is logged in');
     
