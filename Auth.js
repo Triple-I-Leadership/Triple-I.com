@@ -1,4 +1,4 @@
-export async function checkSession() {
+async function checkSession() {
   // Get the current session from Supabase
   const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
   
