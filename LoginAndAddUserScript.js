@@ -20,7 +20,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
       alert('User added successfully!');
     }
   }
-async function checkSession() {
+export async function checkSession() {
   // Get the current session from Supabase
   const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
   
