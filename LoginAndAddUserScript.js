@@ -57,7 +57,7 @@ async function checkSession() {
     console.log('No user is logged in');
     
     // Redirect to login page if no user is logged in
-    window.location.href = 'login.html';
+    window.location.href = 'LoginPage.html';
   }
 }
   // Call the checkSession function when the page loads
