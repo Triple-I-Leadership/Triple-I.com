@@ -4,48 +4,47 @@ const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function showUsers() {
+document.addEventListener('DOMContentLoaded', () => {
+  const showUsersButton = document.getElementById('showUsersButton');
+
+  // Ensure the button exists before attaching the event listener
+  if (showUsersButton) {
+    showUsersButton.addEventListener('click', async () => {
+      console.log("Show Users button clicked!");
+      await fetchAndDisplayUsers();
+    });
+  }
+});
+
+async function fetchAndDisplayUsers() {
   try {
-    // Fetch all users from the 'users' table
-    const { data: users, error: usersError } = await supabase
+    const { data: users, error: userError } = await supabase
       .from('users')
       .select('id, username, email');
-    if (usersError) throw usersError;
-
-    console.log('Users:', users); // Debugging log
-
-    // Fetch active session data from the 'user_sessions' table
-    const { data: sessions, error: sessionsError } = await supabase
+    const { data: sessions, error: sessionError } = await supabase
       .from('user_sessions')
-      .select('user_id, is_active, updated_at');
-    if (sessionsError) throw sessionsError;
+      .select('user_id, is_active, created_at');
 
-    console.log('Sessions:', sessions); // Debugging log
+    if (userError || sessionError) {
+      console.error("Error fetching data:", userError || sessionError);
+      return;
+    }
 
-    // Get the table body element
-    const userTableBody = document
-      .getElementById('userTable')
-      .getElementsByTagName('tbody')[0];
+    const userListContent = document.getElementById('userListContent');
+    userListContent.innerHTML = ''; // Clear previous content
 
-    // Clear existing table rows
-    userTableBody.innerHTML = '';
-
-    // Combine user and session data and render it in the table
     users.forEach(user => {
       const session = sessions.find(s => s.user_id === user.id);
-      const isActive = session ? session.is_active : false;
-      const sessionStartTime = session ? session.created_at : 'N/A';
-
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${user.username}</td>
-        <td>${user.email}</td>
-        <td>${isActive ? 'Yes' : 'No'}</td>
-        <td>${sessionStartTime}</td>
+      const listItem = document.createElement('li');
+      listItem.textContent = `
+        Username: ${user.username}, 
+        Email: ${user.email}, 
+        Is Active: ${session?.is_active || 'No'}, 
+        Last Session: ${session?.created_at || 'None'}
       `;
-      userTableBody.appendChild(row);
+      userListContent.appendChild(listItem);
     });
   } catch (error) {
-    console.error('Error fetching or displaying users:', error);
+    console.error("Unexpected error:", error);
   }
 }
