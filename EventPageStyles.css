@@ -19,8 +19,7 @@ a {
   margin: 0 10px; /* Add some spacing between tabs */
 }
 .back-arrow img {
-  background-color: #FFFFFF
-  width: 40px
+  width: 10px
   transition: 0.2s ease;
 }
 .back-arrow img:hover {
