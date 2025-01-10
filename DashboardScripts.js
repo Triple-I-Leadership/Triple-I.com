@@ -18,9 +18,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchAndDisplayUsers() {
   try {
+    // Fetch user data
     const { data: users, error: userError } = await supabase
       .from('users')
       .select('id, username, email');
+
+    // Fetch session data
     const { data: sessions, error: sessionError } = await supabase
       .from('user_sessions')
       .select('user_id, is_active, created_at');
@@ -30,9 +33,9 @@ async function fetchAndDisplayUsers() {
       return;
     }
 
+    // Update UI with fetched data
     const userListContent = document.getElementById('userListContent');
-    userListContent.innerHTML = ''; // Clear previous content
-
+    userListContent.innerHTML = ''; // Clear existing list
     users.forEach(user => {
       const session = sessions.find(s => s.user_id === user.id);
       const listItem = document.createElement('li');
@@ -48,3 +51,4 @@ async function fetchAndDisplayUsers() {
     console.error("Unexpected error:", error);
   }
 }
+
