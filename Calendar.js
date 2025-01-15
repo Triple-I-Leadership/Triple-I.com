@@ -48,6 +48,11 @@ function renderCalendar(date) {
     dayElement.textContent = day;
     dayElement.dataset.date = fullDate;
 
+    // Highlight days with events
+    if (events.some(event => event.date === fullDate)) {
+      dayElement.classList.add('has-event');
+    }
+
     // Add event listener for day click
     dayElement.addEventListener('click', () => showEvents(fullDate));
 
