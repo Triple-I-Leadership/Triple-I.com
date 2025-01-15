@@ -2,6 +2,14 @@ const calendarGrid = document.querySelector('.calendar-grid');
 const monthYear = document.getElementById('month-year');
 const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
+const eventDetails = document.getElementById('event-details');
+
+// Placeholder events (you can fetch these from a database)
+const events = [
+  { date: '2025-01-15', title: 'Team Meeting', description: 'Monthly team meeting at 10 AM.' },
+  { date: '2025-01-20', title: 'Doctor Appointment', description: 'Annual check-up at 3 PM.' },
+  { date: '2025-01-25', title: 'Birthday Party', description: 'John\'s birthday celebration at 7 PM.' },
+];
 
 let currentDate = new Date();
 
@@ -34,7 +42,35 @@ function renderCalendar(date) {
 
   // Add day numbers
   for (let day = 1; day <= lastDate; day++) {
-    calendarGrid.innerHTML += `<div class="day">${day}</div>`;
+    const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const dayElement = document.createElement('div');
+    dayElement.classList.add('day');
+    dayElement.textContent = day;
+    dayElement.dataset.date = fullDate;
+
+    // Add event listener for day click
+    dayElement.addEventListener('click', () => showEvents(fullDate));
+
+    calendarGrid.appendChild(dayElement);
+  }
+}
+
+function showEvents(date) {
+  // Clear the existing events
+  eventDetails.innerHTML = '';
+
+  // Filter and display events for the selected date
+  const dayEvents = events.filter(event => event.date === date);
+
+  if (dayEvents.length > 0) {
+    dayEvents.forEach(event => {
+      const li = document.createElement('li');
+      li.classList.add('event');
+      li.innerHTML = `<strong>${event.title}</strong>: ${event.description}`;
+      eventDetails.appendChild(li);
+    });
+  } else {
+    eventDetails.innerHTML = '<li class="event">No events for this day.</li>';
   }
 }
 
