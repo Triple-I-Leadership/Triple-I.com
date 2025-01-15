@@ -5,7 +5,7 @@ const nextButton = document.getElementById('next');
 const eventDetails = document.getElementById('event-details');
 
 // Initialize Supabase client
-const supabase = createClient('https://YOUR-SUPABASE-URL', 'YOUR-ANON-KEY');
+const supabase = createClient('https://fvypinxntxcpebvrrqpv.supabase.co', '');
 
 // Fetch events from Supabase
 async function fetchEvents() {
