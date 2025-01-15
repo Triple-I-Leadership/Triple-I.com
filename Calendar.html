@@ -41,6 +41,7 @@
       padding: 10px;
       border-radius: 5px;
       background-color: #f9f9f9;
+      position: relative;
     }
     .day:hover {
       background-color: #e3e3e3;
@@ -48,6 +49,16 @@
     }
     .day-header {
       font-weight: bold;
+    }
+    .event-list {
+      margin-top: 20px;
+      text-align: left;
+    }
+    .event {
+      margin: 5px 0;
+      padding: 5px;
+      background-color: #f0f8ff;
+      border-left: 5px solid #333;
     }
   </style>
 </head>
@@ -58,18 +69,14 @@
       <h2 id="month-year">Month Year</h2>
       <button id="next">Next</button>
     </div>
-    <div class="calendar-grid">
-      <!-- Days of the week headers -->
-      <div class="day-header">Sun</div>
-      <div class="day-header">Mon</div>
-      <div class="day-header">Tue</div>
-      <div class="day-header">Wed</div>
-      <div class="day-header">Thu</div>
-      <div class="day-header">Fri</div>
-      <div class="day-header">Sat</div>
-    </div>
+    <div class="calendar-grid"></div>
+  </div>
+  <div class="event-list">
+    <h2>Events for Selected Day</h2>
+    <ul id="event-details"></ul>
   </div>
 
   <script src="Calendar.js"></script>
 </body>
 </html>
+
