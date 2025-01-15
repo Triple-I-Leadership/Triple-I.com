@@ -4,16 +4,27 @@ const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
 const eventDetails = document.getElementById('event-details');
 
-// Placeholder events (you can fetch these from a database)
-const events = [
-  { date: '2025-06-10', title: 'Team Meeting', description: 'Monthly team meeting at 10 AM.' },
-  { date: '2025-08-11', title: 'Doctor Appointment', description: 'Annual check-up at 3 PM.' },
-  { date: '2025-09-22', title: 'Birthday Party', description: 'John\'s birthday celebration at 7 PM.' },
-];
+// Initialize Supabase client
+const supabase = createClient('https://YOUR-SUPABASE-URL', 'YOUR-ANON-KEY');
+
+// Fetch events from Supabase
+async function fetchEvents() {
+  const { data, error } = await supabase
+    .from('calendar_events')
+    .select('*')
+    .eq('user_id', supabase.auth.user()?.id); // Assuming user is logged in
+
+  if (error) {
+    console.error('Error fetching events:', error);
+    return [];
+  }
+
+  return data;
+}
 
 let currentDate = new Date();
 
-function renderCalendar(date) {
+async function renderCalendar(date) {
   // Clear the grid except for headers
   calendarGrid.innerHTML = `
     <div class="day-header">Sun</div>
@@ -35,6 +46,9 @@ function renderCalendar(date) {
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
 
+  // Fetch events for the current month
+  const events = await fetchEvents();
+
   // Add empty divs for days before the first day
   for (let i = 0; i < firstDay; i++) {
     calendarGrid.innerHTML += `<div class="day"></div>`;
@@ -54,13 +68,13 @@ function renderCalendar(date) {
     }
 
     // Add event listener for day click
-    dayElement.addEventListener('click', () => showEvents(fullDate));
+    dayElement.addEventListener('click', () => showEvents(fullDate, events));
 
     calendarGrid.appendChild(dayElement);
   }
 }
 
-function showEvents(date) {
+function showEvents(date, events) {
   // Clear the existing events
   eventDetails.innerHTML = '';
 
@@ -90,6 +104,10 @@ nextButton.addEventListener('click', () => {
   currentDate.setMonth(currentDate.getMonth() + 1);
   renderCalendar(currentDate);
 });
+
+// Initial render
+renderCalendar(currentDate);
+
 
 // Initial render
 renderCalendar(currentDate);
