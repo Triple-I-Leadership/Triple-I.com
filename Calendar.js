@@ -5,32 +5,19 @@ const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
 const eventDetails = document.getElementById('event-details');
 
-// Initialize Supabase client
-const supabase = createClient('https://fvypinxntxcpebvrrqpv.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg');
+// Supabase client setup
+const supabaseUrl = 'https://your-project-id.supabase.co';  // Replace with your Supabase URL
+const supabaseKey = 'your-anon-key';  // Replace with your Supabase anon key
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+let currentDate = new Date();
 
 // Fetch events from Supabase
 async function fetchEvents() {
-  const { data: session, error: sessionError } = await supabase.auth.getSession();
-  
-  console.log('Session data:', session);
-  
-  if (sessionError) {
-    console.error('Error getting session:', sessionError);
-    return [];
-  }
-
-  const user = session?.session?.user;
-  console.log('Logged-in user:', user);
-  
-  if (!user) {
-    console.error('No user logged in');
-    return [];
-  }
-
   const { data, error } = await supabase
-    .from('calendar_events')
-    .select('*')
-    .eq('user_id', user.id);
+    .from('events')  // Replace 'events' with your table name
+    .select('date, title, description')
+    .eq('date', currentDate.toISOString().split('T')[0]); // Optionally filter by date if needed
 
   if (error) {
     console.error('Error fetching events:', error);
@@ -40,8 +27,9 @@ async function fetchEvents() {
   return data;
 }
 
+// Render calendar grid
 async function renderCalendar(date) {
-  console.log('Rendering calendar for:', date);
+  // Clear the grid except for headers
   calendarGrid.innerHTML = `
     <div class="day-header">Sun</div>
     <div class="day-header">Mon</div>
@@ -55,17 +43,22 @@ async function renderCalendar(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
 
+  // Set month-year heading
   monthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
+
+  // Get the first and last day of the month
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
 
-  const events = await fetchEvents();
-  console.log('Fetched events:', events);
-
+  // Add empty divs for days before the first day
   for (let i = 0; i < firstDay; i++) {
     calendarGrid.innerHTML += `<div class="day"></div>`;
   }
 
+  // Fetch events for the current month
+  const events = await fetchEvents();
+
+  // Add day numbers
   for (let day = 1; day <= lastDate; day++) {
     const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const dayElement = document.createElement('div');
@@ -73,18 +66,23 @@ async function renderCalendar(date) {
     dayElement.textContent = day;
     dayElement.dataset.date = fullDate;
 
+    // Highlight days with events
     if (events.some(event => event.date === fullDate)) {
       dayElement.classList.add('has-event');
-      console.log('Highlighting event day:', fullDate);
     }
 
-    dayElement.addEventListener('click', () => showEvents(fullDate, events));
+    // Add event listener for day click
+    dayElement.addEventListener('click', () => showEvents(fullDate));
+
     calendarGrid.appendChild(dayElement);
   }
 }
 
+// Show events for a selected day
+async function showEvents(date) {
+  // Fetch events for the selected date
+  const events = await fetchEvents();
 
-function showEvents(date, events) {
   // Clear the existing events
   eventDetails.innerHTML = '';
 
@@ -117,3 +115,4 @@ nextButton.addEventListener('click', () => {
 
 // Initial render
 renderCalendar(currentDate);
+
