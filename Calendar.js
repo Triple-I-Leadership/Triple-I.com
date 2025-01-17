@@ -6,8 +6,8 @@ const nextButton = document.getElementById('next');
 const eventDetails = document.getElementById('event-details');
 
 // Supabase client setup
-const supabaseUrl = 'https://your-project-id.supabase.co';  // Replace with your Supabase URL
-const supabaseKey = 'your-anon-key';  // Replace with your Supabase anon key
+const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 let currentDate = new Date();
