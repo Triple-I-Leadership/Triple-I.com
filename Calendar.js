@@ -26,7 +26,7 @@ async function fetchEvents() {
 let currentDate = new Date();
 
 async function renderCalendar(date) {
-  // Clear the grid except for headers
+  console.log('Rendering calendar for:', date);
   calendarGrid.innerHTML = `
     <div class="day-header">Sun</div>
     <div class="day-header">Mon</div>
@@ -40,22 +40,17 @@ async function renderCalendar(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
 
-  // Set month-year heading
   monthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
-
-  // Get the first and last day of the month
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
 
-  // Fetch events for the current month
   const events = await fetchEvents();
+  console.log('Fetched events:', events);
 
-  // Add empty divs for days before the first day
   for (let i = 0; i < firstDay; i++) {
     calendarGrid.innerHTML += `<div class="day"></div>`;
   }
 
-  // Add day numbers
   for (let day = 1; day <= lastDate; day++) {
     const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const dayElement = document.createElement('div');
@@ -63,17 +58,16 @@ async function renderCalendar(date) {
     dayElement.textContent = day;
     dayElement.dataset.date = fullDate;
 
-    // Highlight days with events
     if (events.some(event => event.date === fullDate)) {
       dayElement.classList.add('has-event');
+      console.log('Highlighting event day:', fullDate);
     }
 
-    // Add event listener for day click
     dayElement.addEventListener('click', () => showEvents(fullDate, events));
-
     calendarGrid.appendChild(dayElement);
   }
 }
+
 
 function showEvents(date, events) {
   // Clear the existing events
