@@ -17,14 +17,37 @@ async function fetchEvents() {
 
   if (error) {
     console.error('Error fetching events:', error);
+    return [];async function fetchEvents() {
+  const { data: session, error: sessionError } = await supabase.auth.getSession();
+  
+  console.log('Session data:', session);
+  
+  if (sessionError) {
+    console.error('Error getting session:', sessionError);
+    return [];
+  }
+
+  const user = session?.session?.user;
+  console.log('Logged-in user:', user);
+  
+  if (!user) {
+    console.error('No user logged in');
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from('calendar_events')
+    .select('*')
+    .eq('user_id', user.id);
+
+  if (error) {
+    console.error('Error fetching events:', error);
     return [];
   }
 
   return data;
 }
-
-let currentDate = new Date();
-
+    
 async function renderCalendar(date) {
   console.log('Rendering calendar for:', date);
   calendarGrid.innerHTML = `
@@ -102,3 +125,4 @@ nextButton.addEventListener('click', () => {
 
 // Initial render
 renderCalendar(currentDate);
+}
