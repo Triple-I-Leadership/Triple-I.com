@@ -1,3 +1,4 @@
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 const calendarGrid = document.querySelector('.calendar-grid');
 const monthYear = document.getElementById('month-year');
 const prevButton = document.getElementById('prev');
