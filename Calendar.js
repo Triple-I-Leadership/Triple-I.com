@@ -15,7 +15,7 @@ let currentDate = new Date();
 
 function renderCalendar(date) {
   // Clear the grid except for headers
-  calendarGrid.innerHTML = 
+  calendarGrid.innerHTML = `
     <div class="day-header">Sun</div>
     <div class="day-header">Mon</div>
     <div class="day-header">Tue</div>
@@ -23,13 +23,13 @@ function renderCalendar(date) {
     <div class="day-header">Thu</div>
     <div class="day-header">Fri</div>
     <div class="day-header">Sat</div>
-  ;
+  `;
 
   const year = date.getFullYear();
   const month = date.getMonth();
 
   // Set month-year heading
-  monthYear.textContent = ${date.toLocaleString('default', { month: 'long' })} ${year};
+  monthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
   // Get the first and last day of the month
   const firstDay = new Date(year, month, 1).getDay();
@@ -37,21 +37,16 @@ function renderCalendar(date) {
 
   // Add empty divs for days before the first day
   for (let i = 0; i < firstDay; i++) {
-    calendarGrid.innerHTML += <div class="day"></div>;
+    calendarGrid.innerHTML += `<div class="day"></div>`;
   }
 
   // Add day numbers
   for (let day = 1; day <= lastDate; day++) {
-    const fullDate = ${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')};
+    const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const dayElement = document.createElement('div');
     dayElement.classList.add('day');
     dayElement.textContent = day;
     dayElement.dataset.date = fullDate;
-
-    // Highlight days with events
-    if (events.some(event => event.date === fullDate)) {
-      dayElement.classList.add('has-event');
-    }
 
     // Add event listener for day click
     dayElement.addEventListener('click', () => showEvents(fullDate));
@@ -71,7 +66,7 @@ function showEvents(date) {
     dayEvents.forEach(event => {
       const li = document.createElement('li');
       li.classList.add('event');
-      li.innerHTML = <strong>${event.title}</strong>: ${event.description};
+      li.innerHTML = `<strong>${event.title}</strong>: ${event.description}`;
       eventDetails.appendChild(li);
     });
   } else {
