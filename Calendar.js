@@ -10,14 +10,6 @@ const supabase = createClient('https://fvypinxntxcpebvrrqpv.supabase.co', 'eyJhb
 
 // Fetch events from Supabase
 async function fetchEvents() {
-  const { data, error } = await supabase
-    .from('calendar_events')
-    .select('*')
-    .eq('user_id', supabase.auth.user()?.id); // Assuming user is logged in
-
-  if (error) {
-    console.error('Error fetching events:', error);
-    return [];async function fetchEvents() {
   const { data: session, error: sessionError } = await supabase.auth.getSession();
   
   console.log('Session data:', session);
@@ -47,7 +39,7 @@ async function fetchEvents() {
 
   return data;
 }
-    
+
 async function renderCalendar(date) {
   console.log('Rendering calendar for:', date);
   calendarGrid.innerHTML = `
