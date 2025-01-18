@@ -12,6 +12,7 @@ const events = [
 ];
 
 let currentDate = new Date();
+let selectedDate = null;
 
 function renderCalendar(date) {
   // Clear the grid except for headers
