@@ -3,46 +3,90 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
 const supabase = createClient(supabaseUrl, supabaseKey);
-
+/**
+ * Check if a user is logged in and update the session.
+ * Redirects to login page if no user is found.
+ */
 async function checkSession() {
-  // Get the current session from Supabase
-  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
-  
-  if (sessionError) {
-    console.error("Error getting session:", sessionError);
-    return;
-  }
+  try {
+    // Get the current session
+    const { data: { session }, error } = await supabase.auth.getSession();
 
-  if (sessionData.session) {
-    console.log('User is logged in:', sessionData.session.user);
+    if (error) {
+      console.error('Error fetching session:', error);
+      return;
+    }
 
-    // Extract user information
-    const userId = sessionData.session.user.id;
+    if (session) {
+      console.log('User is logged in:', session.user);
 
-    try {
-      // Insert or update the session in the 'user_sessions' table
-      const { data, error } = await supabase
+      // Update or insert session in the database
+      const { data, error: upsertError } = await supabase
         .from('user_sessions')
         .upsert({
-          user_id: userId,
+          user_id: session.user.id,
           is_active: true,
-          updated_at: new Date().toISOString(), // Use ISO string for timestamp
+          updated_at: new Date().toISOString(),
         });
 
-      if (error) {
-        console.error("Error inserting/updating session:", error);
+      if (upsertError) {
+        console.error('Error updating session:', upsertError);
       } else {
-        console.log("Session updated for user:", data);
+        console.log('Session updated successfully:', data);
       }
-    } catch (err) {
-      console.error("Unexpected error:", err);
+    } else {
+      console.log('No user is logged in.');
+
+      // Redirect to login page
+      window.location.href = 'LoginPage.html';
     }
-  } else {
-    console.log('No user is logged in');
-    
-    // Redirect to login page if no user is logged in
-    window.location.href = 'LoginPage.html';
+  } catch (err) {
+    console.error('Unexpected error in checkSession:', err);
   }
 }
-  // Call the checkSession function when the page loads
-  window.onload = checkSession();
+
+/**
+ * Log the user out and delete the session.
+ */
+async function logoutUser() {
+  try {
+    // Get the current session
+    const { data: { session }, error } = await supabase.auth.getSession();
+
+    if (error || !session) {
+      console.error('Error fetching session for logout:', error || 'No session found');
+      return;
+    }
+
+    // Mark the session as inactive in the database
+    const { error: deleteError } = await supabase
+      .from('user_sessions')
+      .update({ is_active: false })
+      .eq('user_id', session.user.id);
+
+    if (deleteError) {
+      console.error('Error deleting session:', deleteError);
+    } else {
+      console.log('Session marked as inactive for user:', session.user.id);
+    }
+
+    // Log the user out from Supabase
+    const { error: signOutError } = await supabase.auth.signOut();
+
+    if (signOutError) {
+      console.error('Error logging out:', signOutError);
+    } else {
+      console.log('User logged out successfully.');
+      // Redirect to login page
+      window.location.href = 'LoginPage.html';
+    }
+  } catch (err) {
+    console.error('Unexpected error in logoutUser:', err);
+  }
+}
+
+/**
+ * Event listener for page load to check session.
+ */
+window.onload = checkSession;
+
