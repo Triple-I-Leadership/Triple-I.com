@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 users.forEach((user) => {
                     const session = sessions.find((s) => s.user_id === user.id);
                     const isActive = session ? (session.is_active ? "Yes" : "No") : "No";
-                    const firstSession = session ? new date(session.created_at).toLocaleString() : "N/A";
+                    const firstSession = session ? new Date(session.created_at).toLocaleString() : "N/A";
                     const lastSession = session ? new Date(session.updated_at).toLocaleString() : "N/A";
 
                     const userCard = document.createElement("div");
