@@ -82,5 +82,3 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
   }
 });
 
-});
-
