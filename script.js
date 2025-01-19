@@ -42,7 +42,7 @@ window.showloader = function(destination) {
         width: 100%;
         height: 100%;
         overflow: hidden;
-        z-index: 1;
+        x-index: 1;
       }
       .cloud {
         position: absolute;
@@ -81,7 +81,7 @@ window.showloader = function(destination) {
         top: 50%;
         left: -10%;
         transform: translateY(-50%);
-        animation: flyPlane 5s linear forwards;
+        animation: flyPlane 2s linear forwards;
         z-index: 2;
       }
       .plane {
@@ -99,12 +99,12 @@ window.showloader = function(destination) {
         position: absolute;
         width: 10px;
         height: 100%;
-        background: rgba(0, 0, 0, 1);
+        background: rgba(255, 255, 255, 0.8);
         left: 50%;
         top: 0;
         transform: translateX(-50%);
         animation: fadeContrail 2s linear forwards;
-        z-index: 1;
+        x-index: 1;
       }
       @keyframes fadeContrail {
         from {
