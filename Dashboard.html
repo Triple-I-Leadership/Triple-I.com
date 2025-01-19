@@ -25,7 +25,7 @@
     <a href="#users">Users</a>
     <a href="#metrics">Metrics</a>
     <a href="#content">Content</a>
-    <button onclick="logoutUser()">Logout</button>
+    <button id="logoutButton" onclick=logoutUser()>Logout</button>
   </div>
 
   <div class="main">
@@ -44,7 +44,7 @@
       <h2>Content Management</h2>
     </div>
   </div>
-    <script type="module" src='DashboardScripts.js'></script>
-    <script type="module" src='Auth.js'></script>
+    <script type="module" src='DashboardScripts.js' defer></script>
+    <script type="module" src='Auth.js' defer></script>
 </body>
 </html>
