@@ -10,7 +10,7 @@
     position: relative;
     width: 100%;
     height: 400px;
-    background-image: url('your-photo.jpg'); /* Replace with your image */
+    background-image: url('imgs/sword.png'); /* Replace with your image */
     background-size: cover;
     background-position: center;
     color: white;
