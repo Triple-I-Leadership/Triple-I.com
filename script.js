@@ -104,6 +104,7 @@ window.showloader = function(destination) {
         top: 0;
         transform: translateX(-50%);
         animation: fadeContrail 2s linear forwards;
+        z-index: 1;
       }
       @keyframes fadeContrail {
         from {
