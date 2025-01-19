@@ -26,6 +26,7 @@ async function checkSession() {
         .upsert({
           user_id: session.user.id,
           is_active: true,
+          created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         });
 
