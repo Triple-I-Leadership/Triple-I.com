@@ -26,6 +26,10 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
       return;
     }
 
+    // Debugging the fetched data
+    console.log("Users fetched:", users);
+    console.log("Sessions fetched:", sessions);
+
     // Locate the container to display the users
     const userListContent = document.getElementById("userListContent");
 
@@ -55,7 +59,7 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
     users.forEach((user) => {
       const session = sessions.find((s) => s.user_id === user.id);
       const isActive = session ? (session.is_active ? "Yes" : "No") : "No";
-      const firstSession = session ? new Date(session.created_at).toLocaleString(): "N/A";         
+      const firstSession = session ? new Date(session.created_at).toLocaleString() : "N/A";
       const lastSession = session ? new Date(session.updated_at).toLocaleString() : "N/A";
 
       // Create a row for each user
@@ -76,5 +80,7 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
   } catch (error) {
     console.error("Error displaying users:", error);
   }
+});
+
 });
 
