@@ -79,7 +79,7 @@ window.showloader = function(destination) {
         top: 50%;
         left: -10%;
         transform: translateY(-50%);
-        animation: flyPlane 2s linear forwards;
+        animation: flyPlane 5s linear forwards;
       }
       .plane {
         width: 100px;
@@ -96,7 +96,7 @@ window.showloader = function(destination) {
         position: absolute;
         width: 10px;
         height: 100%;
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(0, 0, 0, 1);
         left: 50%;
         top: 0;
         transform: translateX(-50%);
@@ -104,10 +104,10 @@ window.showloader = function(destination) {
       }
       @keyframes fadeContrail {
         from {
-          opacity: 0;
+          opacity: 1;
         }
         to {
-          opacity: 1;
+          opacity: 0;
         }
       }
     `;
