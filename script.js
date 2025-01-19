@@ -36,11 +36,13 @@ window.showloader = function(destination) {
     // Add CSS styles dynamically for the animation
     const style = document.createElement("style");
     style.innerHTML = `
+      
       .clouds {
         position: absolute;
         width: 100%;
         height: 100%;
         overflow: hidden;
+        z-index: 1;
       }
       .cloud {
         position: absolute;
@@ -80,6 +82,7 @@ window.showloader = function(destination) {
         left: -10%;
         transform: translateY(-50%);
         animation: flyPlane 5s linear forwards;
+        z-index: 2;
       }
       .plane {
         width: 100px;
