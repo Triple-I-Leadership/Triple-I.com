@@ -26,7 +26,7 @@ window.showloader = function(destination) {
         <div class="cloud"></div>
       </div>
       <div class="plane-container">
-        <img src="assets/plane.png" alt="Plane" class="plane" />
+        <img src="imgs/Jet.png" alt="Plane" class="plane" />
         <div class="contrail"></div>
       </div>
     `;
