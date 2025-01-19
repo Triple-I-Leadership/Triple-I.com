@@ -46,7 +46,7 @@ window.showloader = function(destination) {
         position: absolute;
         width: 150px;
         height: 80px;
-        background: white;
+        background: black;
         border-radius: 50%;
         opacity: 0.7;
         animation: moveClouds 6s linear infinite;
@@ -104,10 +104,10 @@ window.showloader = function(destination) {
       }
       @keyframes fadeContrail {
         from {
-          opacity: 1;
+          opacity: 0;
         }
         to {
-          opacity: 0;
+          opacity: 1;
         }
       }
     `;
