@@ -45,47 +45,6 @@ async function checkSession() {
     console.error('Unexpected error in checkSession:', err);
   }
 }
-
-/**
- * Log the user out and delete the session.
- */
-async function logoutUser() {
-  try {
-    // Get the current session
-    const { data: { session }, error } = await supabase.auth.getSession();
-
-    if (error || !session) {
-      console.error('Error fetching session for logout:', error || 'No session found');
-      return;
-    }
-
-    // Mark the session as inactive in the database
-    const { error: deleteError } = await supabase
-      .from('user_sessions')
-      .update({ is_active: false })
-      .eq('user_id', session.user.id);
-
-    if (deleteError) {
-      console.error('Error deleting session:', deleteError);
-    } else {
-      console.log('Session marked as inactive for user:', session.user.id);
-    }
-
-    // Log the user out from Supabase
-    const { error: signOutError } = await supabase.auth.signOut();
-
-    if (signOutError) {
-      console.error('Error logging out:', signOutError);
-    } else {
-      console.log('User logged out successfully.');
-      // Redirect to login page
-      window.location.href = 'LoginPage.html';
-    }
-  } catch (err) {
-    console.error('Unexpected error in logoutUser:', err);
-  }
-}
-
 /**
  * Event listener for page load to check session.
  */
