@@ -5,7 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="module" src='Auth.js' defer></script>
   <script>
-    
+  async function logoutUser() {
+    try {
+      // Get the current session
+      const { data: { session }, error } = await supabase.auth.getSession();
+  
+      if (error || !session) {
+        console.error('Error fetching session for logout:', error || 'No session found');
+        return;
+      }
+  
+      // Mark the session as inactive in the database
+      const { error: deleteError } = await supabase
+        .from('user_sessions')
+        .update({ is_active: false })
+        .eq('user_id', session.user.id);
+  
+      if (deleteError) {
+        console.error('Error deleting session:', deleteError);
+      } else {
+        console.log('Session marked as inactive for user:', session.user.id);
+      }
+  
+      // Log the user out from Supabase
+      const { error: signOutError } = await supabase.auth.signOut();
+  
+      if (signOutError) {
+        console.error('Error logging out:', signOutError);
+      } else {
+        console.log('User logged out successfully.');
+        // Redirect to login page
+        window.location.href = 'LoginPage.html';
+      }
+    } catch (err) {
+      console.error('Unexpected error in logoutUser:', err);
+    }
+  }
   </script>
   <title>Dashboard</title>
   <style>
