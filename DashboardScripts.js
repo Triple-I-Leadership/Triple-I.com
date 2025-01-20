@@ -49,8 +49,7 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
           <th>Last Session</th>
         </tr>
       </thead>
-      <tbody id="userTableBody"></tbody>
-    `;
+      `;
     userListContent.appendChild(userTable);
 
     // Display each user with session info
