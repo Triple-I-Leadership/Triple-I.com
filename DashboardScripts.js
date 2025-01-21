@@ -67,7 +67,7 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
     `;
 
     // Add the table to the container
-    tableContainer.appendChild(table);
+    tableContainer.appendChild('table');
 
     console.log("Users table loaded successfully!");
   } catch (error) {
