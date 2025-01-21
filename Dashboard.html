@@ -4,49 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="module" src='Auth.js' defer></script>
-  <script type=module>
-   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-    // Initialize Supabase client
-    const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
-    const supabase = createClient(supabaseUrl, supabaseKey);
-  async function logoutUser() {
-    try {
-      // Get the current session
-      const { data: { session }, error } = await supabase.auth.getSession();
-  
-      if (error || !session) {
-        console.error('Error fetching session for logout:', error || 'No session found');
-        return;
-      }
-  
-      // Mark the session as inactive in the database
-      const { error: deleteError } = await supabase
-        .from('user_sessions')
-        .update({ is_active: false })
-        .eq('user_id', session.user.id);
-  
-      if (deleteError) {
-        console.error('Error deleting session:', deleteError);
-      } else {
-        console.log('Session marked as inactive for user:', session.user.id);
-      }
-  
-      // Log the user out from Supabase
-      const { error: signOutError } = await supabase.auth.signOut();
-  
-      if (signOutError) {
-        console.error('Error logging out:', signOutError);
-      } else {
-        console.log('User logged out successfully.');
-        // Redirect to login page
-        window.location.href = 'LoginPage.html';
-      }
-    } catch (err) {
-      console.error('Unexpected error in logoutUser:', err);
-    }
-  }
-  </script>
   <title>Dashboard</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; }
@@ -107,8 +64,7 @@ table {
       <div id="UserList" class="card">
         <h2>User List</h2>
           <button id="showUsersButton">Show Users</button>
-          <table id="userListContent">
-          <tbody id="userTableBody">
+          <div id="tableContainer"></div>
     </div>
     <div id="metrics" class="card">
       <h2>Metrics</h2>
