@@ -26,17 +26,13 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
       return;
     }
 
-    // Debugging the fetched data
-    console.log("Users fetched:", users);
-    console.log("Sessions fetched:", sessions);
-
     // Locate the container to display the users
-    const userListContent = document.getElementById("userListContent");
+    const tableContainer = document.getElementById("tableContainer");
 
     // Clear any existing content
-    userListContent.innerHTML = "";
+    tableContainer.innerHTML = "";
 
-    // Create a table to display users
+    // Create a table
     const userTable = document.createElement("table");
     userTable.innerHTML = `
       <thead>
@@ -49,35 +45,32 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
           <th>Last Session</th>
         </tr>
       </thead>
-      `;
-    userListContent.appendChild(userTable);
+      <tbody>
+        ${users.map(user => {
+          const session = sessions.find(s => s.user_id === user.id);
+          const isActive = session ? (session.is_active ? "Yes" : "No") : "No";
+          const firstSession = session ? new Date(session.created_at).toLocaleString() : "N/A";
+          const lastSession = session ? new Date(session.updated_at).toLocaleString() : "N/A";
+          
+          return `
+            <tr>
+              <td>${user.username}</td>
+              <td>${user.email}</td>
+              <td>${user.Role}</td>
+              <td>${isActive}</td>
+              <td>${firstSession}</td>
+              <td>${lastSession}</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    `;
 
-    // Display each user with session info
-    const userTableBody = document.getElementById("userTableBody");
+    // Add the table to the container
+    tableContainer.appendChild(userTable);
 
-    users.forEach((user) => {
-      const session = sessions.find((s) => s.user_id === user.id);
-      const isActive = session ? (session.is_active ? "Yes" : "No") : "No";
-      const firstSession = session ? new Date(session.created_at).toLocaleString() : "N/A";
-      const lastSession = session ? new Date(session.updated_at).toLocaleString() : "N/A";
-
-      // Create a row for each user
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${user.username}</td>
-        <td>${user.email}</td>
-        <td>${user.Role}</td>
-        <td>${isActive}</td>
-        <td>${firstSession}</td>
-        <td>${lastSession}</td>
-      `;
-
-      userTableBody.appendChild(row);
-    });
-
-    console.log("Users displayed successfully!");
+    console.log("Users table loaded successfully!");
   } catch (error) {
     console.error("Error displaying users:", error);
   }
 });
-
