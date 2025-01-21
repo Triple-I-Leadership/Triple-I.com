@@ -62,12 +62,12 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
               <td>${lastSession}</td>
             </tr>
           `;
-        }).join()}
+        }).join('table')}
       </tbody>
     `;
 
     // Add the table to the container
-    tableContainer.appendChild(userTable);
+    tableContainer.appendChild(table);
 
     console.log("Users table loaded successfully!");
   } catch (error) {
