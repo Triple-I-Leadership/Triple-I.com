@@ -62,7 +62,7 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
               <td>${lastSession}</td>
             </tr>
           `;
-        }).join('')}
+        }).join()}
       </tbody>
     `;
 
