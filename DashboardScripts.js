@@ -8,7 +8,7 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
   try {
     const { data: users, error: userError } = await supabase
       .from("users")
-      .select("id, username, email, Role");
+      .select("id, username, email, role");
     if (userError) throw userError;
 
     const { data: sessions, error: sessionError } = await supabase
@@ -47,7 +47,7 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
             <tr>
               <td>${user.username}</td>
               <td>${user.email}</td>
-              <td>${user.Role}</td>
+              <td>${user.role}</td>
               <td>${isActive}</td>
               <td>${firstSession}</td>
               <td>${lastSession}</td>
