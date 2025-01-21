@@ -6,33 +6,22 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 document.getElementById("showUsersButton").addEventListener("click", async function () {
   try {
-    // Fetch user data
     const { data: users, error: userError } = await supabase
       .from("users")
       .select("id, username, email, Role");
+    if (userError) throw userError;
 
-    if (userError) {
-      console.error("Error fetching users:", userError);
-      return;
-    }
-
-    // Fetch session data
     const { data: sessions, error: sessionError } = await supabase
       .from("user_sessions")
       .select("user_id, is_active, created_at, updated_at");
+    if (sessionError) throw sessionError;
 
-    if (sessionError) {
-      console.error("Error fetching sessions:", sessionError);
-      return;
-    }
+    console.log("Users data:", users);
+    console.log("Sessions data:", sessions);
 
-    // Locate the container to display the users
     const tableContainer = document.getElementById("tableContainer");
-
-    // Clear any existing content
     tableContainer.innerHTML = "";
 
-    // Create a table
     const userTable = document.createElement("table");
     userTable.innerHTML = `
       <thead>
@@ -51,7 +40,9 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
           const isActive = session ? (session.is_active ? "Yes" : "No") : "No";
           const firstSession = session ? new Date(session.created_at).toLocaleString() : "N/A";
           const lastSession = session ? new Date(session.updated_at).toLocaleString() : "N/A";
-          
+
+          console.log(`Row for user ${user.username}:`, { isActive, firstSession, lastSession });
+
           return `
             <tr>
               <td>${user.username}</td>
@@ -62,13 +53,11 @@ document.getElementById("showUsersButton").addEventListener("click", async funct
               <td>${lastSession}</td>
             </tr>
           `;
-        }).join('table')}
+        }).join("")}
       </tbody>
     `;
 
-    // Add the table to the container
-    tableContainer.appendChild('table');
-
+    tableContainer.appendChild(userTable);
     console.log("Users table loaded successfully!");
   } catch (error) {
     console.error("Error displaying users:", error);
