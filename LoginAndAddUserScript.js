@@ -19,25 +19,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
       console.log('User added to users table:', data);
       alert('User added successfully!');
     }
-  }
-        // Handle form submission
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+  };
 
-            const { user, session, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
-
-            if (error) {
-                document.getElementById('errorMessage').innerText = error.message;
-            } else {
-                console.log('User logged in:', user);
-                window.location.href = 'Dashboard.html'
-            }
-        });
 const hashParams = new URLSearchParams(window.location.hash.substring(1));
 const accessToken = hashParams.get('access_token');
 const refreshToken = hashParams.get('refresh_token');
@@ -57,3 +40,72 @@ if (accessToken) {
       console.error("Error during authentication:", error);
     });
 }
+
+document.getElementById("loginButton").addEventListener("click", async function () {
+  const identifier = document.getElementById("emailOrUsername").value; // Input field for email or username
+  const password = document.getElementById("password").value;
+
+  try {
+    let email = identifier;
+
+    // Check if the identifier is not an email (assume it's a username)
+    if (!identifier.includes("@")) {
+      // Fetch the email corresponding to the username
+      const { data: user, error: userError } = await supabase
+        .from("users")
+        .select("email")
+        .eq("username", identifier)
+        .single();
+
+      if (userError || !user) {
+        console.error("Error fetching email by username:", userError?.message || "No user found");
+        alert("Invalid username or email!");
+        return;
+      }
+
+      email = user.email; // Replace the identifier with the retrieved email
+    }
+
+    // Authenticate the user with the resolved email
+    const { data: session, error: loginError } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (loginError) {
+      console.error("Login error:", loginError.message);
+      alert("Invalid email/username or password!");
+      return;
+    }
+
+    // Fetch user details based on the logged-in user's ID
+    const { data: userRole, error: roleError } = await supabase
+      .from("users")
+      .select("id, role")
+      .eq("id", session.user.id)
+      .single();
+
+    if (roleError) {
+      console.error("Error fetching user role:", roleError.message);
+      alert("Could not determine user role!");
+      return;
+    }
+
+    // Normalize role to lowercase for case-insensitivity
+    const role = userRole.role.toLowerCase();
+
+    // Redirect based on role
+    if (role === "officer") {
+      window.location.href = "Dashboard.html";
+    } else if (role === "member") {
+      window.location.href = "index.html";
+    } else {
+      console.error("Unknown role:", userRole.role);
+      alert("Role not recognized!");
+    }
+  } catch (error) {
+    console.error("Error logging in:", error.message);
+    alert("Something went wrong during login!");
+  }
+});
+
