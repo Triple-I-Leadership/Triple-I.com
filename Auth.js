@@ -50,3 +50,22 @@ async function checkSession() {
  */
 window.onload = checkSession;
 
+// Logout function
+async function logoutUser() {
+  try {
+    // Delete the user's session
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error logging out:", error);
+      return;
+    }
+
+    // Redirect to the welcome page
+    window.location.href = "index.html";
+  } catch (err) {
+    console.error("An unexpected error occurred during logout:", err);
+  }
+}
+
+// Attach logout function to the button
+document.getElementById("logoutButton").addEventListener("click", logoutUser);
