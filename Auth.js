@@ -53,10 +53,32 @@ window.onload = checkSession;
 // Logout function
 async function logoutUser() {
   try {
+    // Get the current session
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError || !sessionData.session) {
+      console.error("Error fetching session data or no active session:", sessionError);
+      return;
+    }
+
+    const userId = sessionData.session.user.id;
+
+    // Update the active session to false
+    const { error: updateError } = await supabase
+      .from("user_sessions")
+      .update({ is_active: false })
+      .eq("user_id", userId);
+
+    if (updateError) {
+      console.error("Error deactivating session:", updateError);
+      return;
+    }
+
+    console.log("Session deactivated successfully!");
+
     // Delete the user's session
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error("Error logging out:", error);
+    const { error: signOutError } = await supabase.auth.signOut();
+    if (signOutError) {
+      console.error("Error logging out:", signOutError);
       return;
     }
 
@@ -68,4 +90,4 @@ async function logoutUser() {
 }
 
 // Attach logout function to the button
-document.getElementById("logoutButton").addEventListener("click", logoutUser);
+document.getElementById("logoutButton").addEventListener("click", logoutUs
