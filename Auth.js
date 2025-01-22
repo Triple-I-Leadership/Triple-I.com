@@ -90,4 +90,4 @@ async function logoutUser() {
 }
 
 // Attach logout function to the button
-document.getElementById("logoutButton").addEventListener("click", logoutUs
+document.getElementById("logoutButton").addEventListener("click", logoutUser)
