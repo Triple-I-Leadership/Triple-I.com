@@ -6,9 +6,9 @@ const eventDetails = document.getElementById('event-details');
 
 // Placeholder events (you can fetch these from a database)
 const events = [
-  { date: '2025-01-15', title: 'Team Meeting', description: 'Monthly team meeting at 10 AM.' },
-  { date: '2025-01-20', title: 'Doctor Appointment', description: 'Annual check-up at 3 PM.' },
-  { date: '2025-01-25', title: 'Birthday Party', description: 'John\'s birthday celebration at 7 PM.' },
+  { date: '2025-01-15', title: '10am - 11:30am', description: 'Monthly team meeting.' },
+  { date: '2025-01-20', title: '3pm - 4pm', description: 'Annual check-up at the doctor.' },
+  { date: '2025-01-25', title: '7pm - 8pm', description: 'John\'s birthday celebration.' },
 ];
 
 let currentDate = new Date();
