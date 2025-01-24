@@ -96,5 +96,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       } catch (error) {
         console.error("Unexpected error fetching role:", error);
       }
+    }
+}
 
 
