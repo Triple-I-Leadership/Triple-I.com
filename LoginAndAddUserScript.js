@@ -41,62 +41,66 @@ if (accessToken) {
     });
 }
 
-// Handle form submission
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    try {
-        // Attempt to log in the user
-        const { user, session, error } = await supabase.auth.signInWithPassword({
-            email: email,
-            password: password,
-        });
-
-        if (error) {
-            document.getElementById('errorMessage').innerText = error.message;
-            return;
-        }
-
-      try {
-        const { data, error } = await supabase
-          .from("users")
-          .select("role")
-          .eq("email", "jakob.c.emerson@gmail.com");
-      
-        if (error) {
-          console.error("Error fetching role:", error.message);
-          return;
-        }
-      
-        if (!data || data.length === 0) {
-          console.error("No matching user found.");
-          return;
-        }
-      
-        if (data.length > 1) {
-          console.error("Multiple users found with this email.");
-          return;
-        }
-      
-        // Access the role
-        const role = data[0].role;
-        console.log("User role:", role);
-      
-        // Redirect based on role
-        if (role === "Officer") {
-          window.location.href = "dashboard.html";
-        } else if (role === "Member") {
-          window.location.href = "member-page.html";
-        } else {
-          console.error("Unknown role:", role);
-        }
-      } catch (error) {
-        console.error("Unexpected error fetching role:", error);
-      }
+Original file line number	Diff line number	Diff line change
+@@ -20,69 +20,27 @@
+      alert('User added successfully!');
     }
+  }
+export async function checkSession() {
+  // Get the current session from Supabase
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  
+  if (sessionError) {
+    console.error("Error getting session:", sessionError);
+    return;
+  }
+  if (sessionData.session) {
+    console.log('User is logged in:', sessionData.session.user);
+    // Extract user information
+    const userId = sessionData.session.user.id;
+    try {
+      // Insert or update the session in the 'user_sessions' table
+      const { data, error } = await supabase
+        .from('user_sessions')
+        .upsert({
+          user_id: userId,
+          is_active: true,
+          updated_at: new Date().toISOString(), // Use ISO string for timestamp
+        });
+      if (error) {
+        console.error("Error inserting/updating session:", error);
+      } else {
+        console.log("Session updated for user:", data);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    }
+  } else {
+    console.log('No user is logged in');
+    
+    // Redirect to login page if no user is logged in
+    window.location.href = 'LoginPage.html';
+  }
 }
+  // Call the checkSession function when the page loads
+  window.onload = checkSession();
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const { user, session, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                document.getElementById('errorMessage').innerText = error.message;
+            } else {
+                console.log('User logged in:', user);
+                window.location.href = 'Dashboard.html'
+            }
+        });
 
 
