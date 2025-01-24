@@ -60,32 +60,41 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             return;
         }
 
-        // Fetch user role from your database
-        const { data: users, error: roleError } = await supabase
-            .from("users")
-            .select("role")
-            .eq("email", email);
-
-        if (roleError || !users) {
-            console.error("Error fetching role:", roleError || "No user data found");
-            document.getElementById('errorMessage').innerText = "Failed to fetch user role. Please try again.";
-            return;
+      try {
+        const { data, error } = await supabase
+          .from("users")
+          .select("role")
+          .eq("email", "jakob.c.emerson@gmail.com");
+      
+        if (error) {
+          console.error("Error fetching role:", error.message);
+          return;
         }
-
-        // Redirect based on the role
-        const role = users.role;
+      
+        if (!data || data.length === 0) {
+          console.error("No matching user found.");
+          return;
+        }
+      
+        if (data.length > 1) {
+          console.error("Multiple users found with this email.");
+          return;
+        }
+      
+        // Access the role
+        const role = data[0].role;
         console.log("User role:", role);
-
+      
+        // Redirect based on role
         if (role === "Officer") {
-            window.location.href = "Dashboard.html";
+          window.location.href = "dashboard.html";
         } else if (role === "Member") {
-            window.location.href = "MemberPage.html"; // Change this to the correct member page
+          window.location.href = "member-page.html";
         } else {
-            document.getElementById('errorMessage').innerText = "Unknown role. Please contact support.";
+          console.error("Unknown role:", role);
         }
-    } catch (err) {
-        console.error("Unexpected error during login:", err);
-        document.getElementById('errorMessage').innerText = "An unexpected error occurred.";
-    }
-});
+      } catch (error) {
+        console.error("Unexpected error fetching role:", error);
+      }
+
 
