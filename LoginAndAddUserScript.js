@@ -41,42 +41,20 @@ if (accessToken) {
     });
 }
 
-document.getElementById("loginButton").addEventListener("click", async function () {
-  const identifier = document.getElementById("emailOrUsername").value; // Input field for email or username
-  const password = document.getElementById("password").value;
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
 
-  try {
-    let email = identifier;
+            const { user, session, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
 
-    // Check if the identifier is not an email (assume it's a username)
-    if (!identifier.includes("@")) {
-      // Fetch the email corresponding to the username
-      const { data: user, error: userError } = await supabase
-        .from("users")
-        .select("email")
-        .eq("username", identifier)
-        .single();
-
-      if (userError || !user) {
-        console.error("Error fetching email by username:", userError?.message || "No user found");
-        alert("Invalid username or email!");
-        return;
-      }
-
-      email = user.email; // Replace the identifier with the retrieved email
-    }
-
-    // Authenticate the user with the resolved email
-    const { data: session, error: loginError } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
-
-    if (loginError) {
-      console.error("Login error:", loginError.message);
-      alert("Invalid email/username or password!");
-      return;
-    }
+            if (error) {
+                document.getElementById('errorMessage').innerText = error.message;
+            }
 
     // Fetch user details based on the logged-in user's ID
     const { data: userRole, error: roleError } = await supabase
