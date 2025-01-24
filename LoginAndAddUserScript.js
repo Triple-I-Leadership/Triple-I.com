@@ -41,49 +41,52 @@ if (accessToken) {
     });
 }
 
-        // Handle form submission
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+// Handle form submission
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-            const { user, session, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-            if (error) {
-                document.getElementById('errorMessage').innerText = error.message;
-            }
+    try {
+        // Attempt to log in the user
+        const { user, session, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
 
-    // Fetch user details based on the logged-in user's ID
-    const { data: userRole, error: roleError } = await supabase
-      .from("users")
-      .select("id, role")
-      .eq("id", session.user.id)
-      .single();
+        if (error) {
+            document.getElementById('errorMessage').innerText = error.message;
+            return;
+        }
 
-    if (roleError) {
-      console.error("Error fetching user role:", roleError.message);
-      alert("Could not determine user role!");
-      return;
+        // Fetch user role from your database
+        const { data: users, error: roleError } = await supabase
+            .from("users")
+            .select("Role")
+            .eq("email", email)
+            .single();
+
+        if (roleError || !users) {
+            console.error("Error fetching role:", roleError || "No user data found");
+            document.getElementById('errorMessage').innerText = "Failed to fetch user role. Please try again.";
+            return;
+        }
+
+        // Redirect based on the role
+        const role = users.Role;
+        console.log("User role:", role);
+
+        if (role === "Officer") {
+            window.location.href = "Dashboard.html";
+        } else if (role === "Member") {
+            window.location.href = "MemberPage.html"; // Change this to the correct member page
+        } else {
+            document.getElementById('errorMessage').innerText = "Unknown role. Please contact support.";
+        }
+    } catch (err) {
+        console.error("Unexpected error during login:", err);
+        document.getElementById('errorMessage').innerText = "An unexpected error occurred.";
     }
-
-    // Normalize role to lowercase for case-insensitivity
-    const role = userRole.role.toLowerCase();
-
-    // Redirect based on role
-    if (role === "officer") {
-      window.location.href = "Dashboard.html";
-    } else if (role === "member") {
-      window.location.href = "index.html";
-    } else {
-      console.error("Unknown role:", userRole.role);
-      alert("Role not recognized!");
-    }
-  } catch (error) {
-    console.error("Error logging in:", error.message);
-    alert("Something went wrong during login!");
-  }
 });
 
