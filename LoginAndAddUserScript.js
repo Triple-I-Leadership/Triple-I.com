@@ -64,8 +64,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         const { data: users, error: roleError } = await supabase
             .from("users")
             .select("role")
-            .eq("email", email)
-            .single();
+            .eq("email", email);
 
         if (roleError || !users) {
             console.error("Error fetching role:", roleError || "No user data found");
