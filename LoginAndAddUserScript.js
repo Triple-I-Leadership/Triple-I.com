@@ -63,7 +63,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         // Fetch user role from your database
         const { data: users, error: roleError } = await supabase
             .from("users")
-            .select("Role")
+            .select("role")
             .eq("email", email)
             .single();
 
@@ -74,7 +74,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         }
 
         // Redirect based on the role
-        const role = users.Role;
+        const role = users.role;
         console.log("User role:", role);
 
         if (role === "Officer") {
