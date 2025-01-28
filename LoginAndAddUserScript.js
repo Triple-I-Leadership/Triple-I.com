@@ -40,9 +40,6 @@ if (accessToken) {
       console.error("Error during authentication:", error);
     });
 }
-
-Original file line number	Diff line number	Diff line change
-@@ -20,69 +20,27 @@
       alert('User added successfully!');
     }
   }
