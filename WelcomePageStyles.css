@@ -87,6 +87,6 @@ a:active {
 }
 .top-bar-tab-logo img {
     width: 10%;
-    justify-content: center;
+    height: 10%;
     display: inline-block;
 }
