@@ -13,7 +13,7 @@ window.onerror = function (message, source, lineno, colno, error) {
   sessionStorage.setItem("errorDetails", JSON.stringify(errorDetails));
 
   // Redirect to the error page
-  window.location.href = "error.html";
+  window.location.href = "ErrorPage.html";
 };
 
 // Retrieve error details from sessionStorage
