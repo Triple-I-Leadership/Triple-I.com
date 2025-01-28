@@ -85,3 +85,7 @@ a:active {
 .controls button:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
+.top-bar-tab-logo {
+    width: 10%;
+    height: 10%;
+}
