@@ -88,4 +88,5 @@ a:active {
 .top-bar-tab-logo img {
     width: 10%;
     justify-content: center;
+    display: inline-block;
 }
