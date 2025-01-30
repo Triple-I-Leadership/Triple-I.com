@@ -21,20 +21,27 @@ async function fetchEvents() {
     return;
   }
 
-  const eventDate = new Date(event.date); // Convert to Date object
-    if (isNaN(eventDate)) {
+  events = data.map(event => {
+    if (!event || !event.Date) { // Check if event or event.Date is missing
+      console.warn("Skipping invalid event:", event);
+      return null; // Skip invalid entries
+    }
+
+    const eventDate = new Date(event.Date); // Convert to Date object
+    if (isNaN(eventDate.getTime())) { // Ensure it's a valid date
       console.warn("Invalid date format:", event.Date);
       return null; // Skip if conversion fails
     }
 
-  const dateStr = eventDate.toISOString().slice(0, 10); // Extract YYYY-MM-DD
-  const timeStr = eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Extract HH:MM AM/PM
-  
-  events = data.map(event => ({
-    date: dateStr,
-    title: timeStr,
-    description: event.description
-  }));
+    const dateStr = eventDate.toISOString().slice(0, 10); // Extract YYYY-MM-DD
+    const timeStr = eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Extract HH:MM AM/PM
+
+    return {
+      date: dateStr,
+      title: timeStr, // Time as title
+      description: event.Description
+    };
+  }).filter(event => event !== null); // Remove null values
   renderCalendar(currentDate);
 }
 
