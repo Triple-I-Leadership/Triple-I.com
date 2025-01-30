@@ -4,18 +4,18 @@ const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
 const eventDetails = document.getElementById('event-details');
 
-// Initialize Supabase
-const { createClient } = supabase;
-const supabaseUrl = "https://your-supabase-url.supabase.co";
-const supabaseKey = "your-anon-key";
-const supabaseClient = createClient(supabaseUrl, supabaseKey);
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+// Initialize Supabase client
+const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 let currentDate = new Date();
 let selectedDate = null;
 let events = [];
 
 async function fetchEvents() {
-  const { data, error } = await supabaseClient.from('events').select('*');
+  const { data, error } = await supabaseClient.from('calendar_events').select('*');
   if (error) {
     console.error('Error fetching events:', error);
     return;
