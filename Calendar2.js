@@ -15,7 +15,7 @@ let selectedDate = null;
 let events = [];
 
 async function fetchEvents() {
-  const { data, error } = await supabaseClient.from('calendar_events').select('*');
+  const { data, error } = await supabase.from('calendar_events').select('*');
   if (error) {
     console.error('Error fetching events:', error);
     return;
