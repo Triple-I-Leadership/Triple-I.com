@@ -21,9 +21,9 @@ async function fetchEvents() {
     return;
   }
   events = data.map(event => ({
-    date: event.Date.split('T')[0],
-    title: event.Name,
-    description: event.Description
+    date: new Date(event.date).toISOString().slice(0, 10),
+    title: event.name,
+    description: event.description
   }));
   renderCalendar(currentDate);
 }
