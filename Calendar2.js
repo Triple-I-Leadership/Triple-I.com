@@ -22,7 +22,7 @@ async function fetchEvents() {
   }
   events = data.map(event => ({
     date: new Date(event.date).toISOString().slice(0, 10),
-    title: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Extract HH:MM AM/PM
+    title: eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), // Extract HH:MM AM/PM
     description: event.description
   }));
   renderCalendar(currentDate);
