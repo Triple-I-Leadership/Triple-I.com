@@ -20,9 +20,19 @@ async function fetchEvents() {
     console.error('Error fetching events:', error);
     return;
   }
+
+  const eventDate = new Date(event.date); // Convert to Date object
+    if (isNaN(eventDate)) {
+      console.warn("Invalid date format:", event.Date);
+      return null; // Skip if conversion fails
+    }
+
+  const dateStr = eventDate.toISOString().slice(0, 10); // Extract YYYY-MM-DD
+  const timeStr = eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Extract HH:MM AM/PM
+  
   events = data.map(event => ({
-    date: new Date(event.date).toISOString().slice(0, 10),
-    title: event.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), // Extract HH:MM AM/PM
+    date: dateStr,
+    title: timeStr,
     description: event.description
   }));
   renderCalendar(currentDate);
