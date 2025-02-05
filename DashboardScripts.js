@@ -21,7 +21,7 @@ async function fetchUsers() {
     email: user.email,
     role: user.role
   }));
-  renderUsers();
+  fetchUsers();
 }
 
 function renderUsers() {
@@ -64,4 +64,4 @@ document.head.insertAdjacentHTML('beforeend', `
   </style>
 `);
 
-fetchUsers();
+renderUsers();
