@@ -26,7 +26,7 @@ async function fetchUsers() {
 function renderUsers() {
   const container = document.getElementById("userContainer");
   container.innerHTML = `
-    <table border="1">
+    <table border="1" class="user-table">
       <thead>
         <tr>
           <th>ID</th>
@@ -57,6 +57,15 @@ function getRoleClass(role) {
 
 document.head.insertAdjacentHTML('beforeend', `
   <style>
+    .user-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .user-table th, .user-table td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
     .admin-user { background-color: red; color: white; }
     .moderator-user { background-color: orange; color: black; }
     .regular-user { background-color: blue; color: white; }
