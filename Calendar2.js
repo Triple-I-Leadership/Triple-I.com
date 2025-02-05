@@ -22,12 +22,12 @@ async function fetchEvents() {
   }
 
   events = data.map(event => {
-    if (!event || !event.Date) { // Check if event or event.Date is missing
+    if (!event || !event.date) { // Check if event or event.Date is missing
       console.warn("Skipping invalid event:", event);
       return null; // Skip invalid entries
     }
 
-    const eventDate = new Date(event.Date); // Convert to Date object
+    const eventDate = new Date(event.date); // Convert to Date object
     if (isNaN(eventDate.getTime())) { // Ensure it's a valid date
       console.warn("Invalid date format:", event.Date);
       return null; // Skip if conversion fails
@@ -39,7 +39,7 @@ async function fetchEvents() {
     return {
       date: dateStr,
       title: timeStr, // Time as title
-      description: event.Description
+      description: event.description
     };
   }).filter(event => event !== null); // Remove null values
   renderCalendar(currentDate);
