@@ -9,7 +9,7 @@ document.getElementById("showUsersButton").addEventListener("click", fetchUsers)
 let users = [];
 
 async function fetchUsers() {
-  const { data, error } = await supabase.from("users").select('*');
+  const { data, error } = await supabase.from("users").select("id, username, email, role");
   if (error) {
     console.error("Error fetching users:", error);
     return;
@@ -21,7 +21,6 @@ async function fetchUsers() {
     email: user.email,
     role: user.role
   }));
-  fetchUsers();
 }
 
 function renderUsers() {
@@ -64,4 +63,5 @@ document.head.insertAdjacentHTML('beforeend', `
   </style>
 `);
 
-renderUsers();
+fetchUsers().then(() => renderUsers()); // Ensures UI updates after fetching users
+
