@@ -76,5 +76,3 @@ document.head.insertAdjacentHTML('beforeend', `
     }
   </style>
 `);
-
-fetchUsers().then(() => renderUsers()); // Ensures UI updates after fetching users
