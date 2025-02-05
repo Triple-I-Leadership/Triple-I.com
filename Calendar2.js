@@ -22,31 +22,33 @@ async function fetchEvents() {
   }
 
   events = data.map(event => {
-    if (!event || !event.date) { // Check if event or event.Date is missing
+    if (!event || !event.date || !event.end_date) {
       console.warn("Skipping invalid event:", event);
-      return null; // Skip invalid entries
+      return null;
     }
 
-    const eventDate = new Date(event.date); // Convert to Date object
-    if (isNaN(eventDate.getTime())) { // Ensure it's a valid date
-      console.warn("Invalid date format:", event.Date);
-      return null; // Skip if conversion fails
+    const startDate = new Date(event.date);
+    const endDate = new Date(event.end_date);
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      console.warn("Invalid date format:", event.date, event.end_date);
+      return null;
     }
 
-    const dateStr = eventDate.toISOString().slice(0, 10); // Extract YYYY-MM-DD
-    const timeStr = eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Extract HH:MM AM/PM
-
+    const dateStr = startDate.toISOString().slice(0, 10);
+    const timeStr = `${startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+    
     return {
       date: dateStr,
-      title: timeStr, // Time as title
+      end_date: endDate.toISOString().slice(0, 10),
+      title: timeStr,
       description: event.description
     };
-  }).filter(event => event !== null); // Remove null values
+  }).filter(event => event !== null);
   renderCalendar(currentDate);
 }
 
 function renderCalendar(date) {
-  // Clear the grid except for headers
   calendarGrid.innerHTML = `
     <div class="day-header">Sun</div>
     <div class="day-header">Mon</div>
@@ -60,19 +62,15 @@ function renderCalendar(date) {
   const year = date.getFullYear();
   const month = date.getMonth();
 
-  // Set month-year heading
   monthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
-  // Get the first and last day of the month
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
 
-  // Add empty divs for days before the first day
   for (let i = 0; i < firstDay; i++) {
     calendarGrid.innerHTML += `<div class="day"></div>`;
   }
 
-  // Add day numbers
   for (let day = 1; day <= lastDate; day++) {
     const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const dayElement = document.createElement('div');
@@ -80,12 +78,18 @@ function renderCalendar(date) {
     dayElement.textContent = day;
     dayElement.dataset.date = fullDate;
 
-    // Highlight days with events
-    if (events.some(event => event.date === fullDate)) {
-      dayElement.classList.add('has-event');
+    const eventForDay = events.find(event => event.date === fullDate);
+    if (eventForDay) {
+      const eventDuration = (new Date(eventForDay.end_date) - new Date(eventForDay.date)) / (1000 * 60 * 60 * 24);
+      if (eventDuration > 30) {
+        dayElement.classList.add('long-event');
+      } else if (eventDuration > 7) {
+        dayElement.classList.add('mid-event');
+      } else {
+        dayElement.classList.add('has-event');
+      }
     }
 
-    // Add event listener for day click
     dayElement.addEventListener('click', () => {
       selectedDate = fullDate;
       renderCalendar(currentDate);
@@ -97,10 +101,8 @@ function renderCalendar(date) {
 }
 
 function showEvents(date) {
-  // Clear the existing events
   eventDetails.innerHTML = '';
 
-  // Filter and display events for the selected date
   const dayEvents = events.filter(event => event.date === date);
 
   if (dayEvents.length > 0) {
@@ -115,17 +117,23 @@ function showEvents(date) {
   }
 }
 
-// Navigate to previous month
 prevButton.addEventListener('click', () => {
   currentDate.setMonth(currentDate.getMonth() - 1);
   renderCalendar(currentDate);
 });
 
-// Navigate to next month
 nextButton.addEventListener('click', () => {
   currentDate.setMonth(currentDate.getMonth() + 1);
   renderCalendar(currentDate);
 });
 
-// Initial fetch and render
 fetchEvents();
+
+// Add CSS styles for event highlighting
+document.head.insertAdjacentHTML('beforeend', `
+  <style>
+    .has-event { background-color: yellow; }
+    .mid-event { background-color: green; }
+    .long-event { background-color: red; }
+  </style>
+`);
