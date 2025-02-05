@@ -21,11 +21,12 @@ async function fetchUsers() {
     email: user.email,
     role: user.role
   }));
-  renderUsers()
+  renderUsers();
 }
 
 function renderUsers() {
   const container = document.getElementById("userContainer");
+  container.style.display = 'block'; // Show the container after rendering users
   container.innerHTML = `
     <table border="1" class="user-table">
       <thead>
@@ -70,8 +71,10 @@ document.head.insertAdjacentHTML('beforeend', `
     .officer-user { background-color: red; color: white; }
     .member-user { background-color: orange; color: black; }
     .regular-user { background-color: blue; color: white; }
+    #userContainer {
+      display: none; /* Initially hide the user container */
+    }
   </style>
 `);
 
 fetchUsers().then(() => renderUsers()); // Ensures UI updates after fetching users
-
