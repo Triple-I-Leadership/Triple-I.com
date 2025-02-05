@@ -21,6 +21,7 @@ async function fetchUsers() {
     email: user.email,
     role: user.role
   }));
+  renderUsers()
 }
 
 function renderUsers() {
