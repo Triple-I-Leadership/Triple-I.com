@@ -66,8 +66,8 @@ document.head.insertAdjacentHTML('beforeend', `
       padding: 8px;
       text-align: left;
     }
-    .admin-user { background-color: red; color: white; }
-    .moderator-user { background-color: orange; color: black; }
+    .officer-user { background-color: red; color: white; }
+    .member-user { background-color: orange; color: black; }
     .regular-user { background-color: blue; color: white; }
   </style>
 `);
