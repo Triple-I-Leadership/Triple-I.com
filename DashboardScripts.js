@@ -35,7 +35,7 @@ function renderUsers() {
           <th>Role</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody border="1">
         ${users.map(user => `
           <tr class="${getRoleClass(user.role)}">
             <td>${user.id}</td>
