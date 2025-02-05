@@ -9,7 +9,7 @@ document.getElementById("showUsersButton").addEventListener("click", fetchUsers)
 let users = [];
 
 async function fetchUsers() {
-  const { data, error } = await supabase.from("users").select("id, username, email, role");
+  const { data, error } = await supabase.from("users").select('*');
   if (error) {
     console.error("Error fetching users:", error);
     return;
@@ -51,8 +51,8 @@ function renderUsers() {
 }
 
 function getRoleClass(role) {
-  if (role.toLowerCase() === "admin") return "admin-user";
-  if (role.toLowerCase() === "moderator") return "moderator-user";
+  if (role.toLowerCase() === "officer") return "officer-user";
+  if (role.toLowerCase() === "member") return "member-user";
   return "regular-user";
 }
 
