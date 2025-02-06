@@ -63,7 +63,7 @@ export async function checkSession() {
   // Call the checkSession function when the page loads
   window.onload = checkSession();
         // Handle form submission
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -80,5 +80,3 @@ export async function checkSession() {
                 window.location.href = 'Dashboard.html'
             }
         });
-
-
