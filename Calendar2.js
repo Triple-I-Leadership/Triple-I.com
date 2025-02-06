@@ -15,41 +15,39 @@ let selectedDate = null;
 let events = [];
 
 async function fetchEvents() {
-  const { data, error } = await supabase.from('calendar_events').select("id, event, description, date, end_date");
+  const { data, error } = await supabase.from('calendar_events').select('*');
   if (error) {
     console.error('Error fetching events:', error);
     return;
   }
 
   events = data.map(event => {
-    if (!event || !event.date || !event.end_date) {
+    if (!event || !event.date) { // Check if event or event.Date is missing
       console.warn("Skipping invalid event:", event);
-      return null;
+      return null; // Skip invalid entries
     }
 
-    const startDate = new Date(event.date);
-    const endDate = new Date(event.end_date);
-
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      console.warn("Invalid date format:", event.date, event.end_date);
-      return null;
+    const eventDate = new Date(event.date); // Convert to Date object
+    if (isNaN(eventDate.getTime())) { // Ensure it's a valid date
+      console.warn("Invalid date format:", event.Date);
+      return null; // Skip if conversion fails
     }
 
-    const dateStr = startDate.toISOString().slice(0, 10);
-    const timeStr = `${startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-    
+    const dateStr = eventDate.toISOString().slice(0, 10); // Extract YYYY-MM-DD
+    const timeStr = eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Extract HH:MM AM/PM
+
     return {
       date: dateStr,
-      end_date: endDate.toISOString().slice(0, 10),
-      title: timeStr,
+      title: timeStr, // Time as title
       description: event.description
     };
-  }).filter(event => event !== null);
+  }).filter(event => event !== null); // Remove null values
   renderCalendar(currentDate);
 }
 
 function renderCalendar(date) {
-  calendarGrid.innerHTML = `
+  // Clear the grid except for headers
+  calendarGrid.innerHTML = 
     <div class="day-header">Sun</div>
     <div class="day-header">Mon</div>
     <div class="day-header">Tue</div>
@@ -57,39 +55,37 @@ function renderCalendar(date) {
     <div class="day-header">Thu</div>
     <div class="day-header">Fri</div>
     <div class="day-header">Sat</div>
-  `;
+  ;
 
   const year = date.getFullYear();
   const month = date.getMonth();
 
-  monthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
+  // Set month-year heading
+  monthYear.textContent = ${date.toLocaleString('default', { month: 'long' })} ${year};
 
+  // Get the first and last day of the month
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
 
+  // Add empty divs for days before the first day
   for (let i = 0; i < firstDay; i++) {
-    calendarGrid.innerHTML += `<div class="day"></div>`;
+    calendarGrid.innerHTML += <div class="day"></div>;
   }
 
+  // Add day numbers
   for (let day = 1; day <= lastDate; day++) {
-    const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const fullDate = ${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')};
     const dayElement = document.createElement('div');
     dayElement.classList.add('day');
     dayElement.textContent = day;
     dayElement.dataset.date = fullDate;
 
-    const eventForDay = events.find(event => event.date === fullDate);
-    if (eventForDay) {
-      const eventDuration = (new Date(eventForDay.end_date) - new Date(eventForDay.date)) / (1000 * 60 * 60 * 24);
-      if (eventDuration > 30) {
-        dayElement.classList.add('long-event');
-      } else if (eventDuration > 7) {
-        dayElement.classList.add('mid-event');
-      } else {
-        dayElement.classList.add('has-event');
-      }
+    // Highlight days with events
+    if (events.some(event => event.date === fullDate)) {
+      dayElement.classList.add('has-event');
     }
 
+    // Add event listener for day click
     dayElement.addEventListener('click', () => {
       selectedDate = fullDate;
       renderCalendar(currentDate);
@@ -101,15 +97,17 @@ function renderCalendar(date) {
 }
 
 function showEvents(date) {
+  // Clear the existing events
   eventDetails.innerHTML = '';
 
+  // Filter and display events for the selected date
   const dayEvents = events.filter(event => event.date === date);
 
   if (dayEvents.length > 0) {
     dayEvents.forEach(event => {
       const li = document.createElement('li');
       li.classList.add('event');
-      li.innerHTML = `<strong>${event.title}</strong>: ${event.description}`;
+      li.innerHTML = <strong>${event.title}</strong>: ${event.description};
       eventDetails.appendChild(li);
     });
   } else {
@@ -117,23 +115,17 @@ function showEvents(date) {
   }
 }
 
+// Navigate to previous month
 prevButton.addEventListener('click', () => {
   currentDate.setMonth(currentDate.getMonth() - 1);
   renderCalendar(currentDate);
 });
 
+// Navigate to next month
 nextButton.addEventListener('click', () => {
   currentDate.setMonth(currentDate.getMonth() + 1);
   renderCalendar(currentDate);
 });
 
+// Initial fetch and render
 fetchEvents();
-
-// Add CSS styles for event highlighting
-document.head.insertAdjacentHTML('beforeend', `
-  <style>
-    .has-event { background-color: yellow; }
-    .mid-event { background-color: green; }
-    .long-event { background-color: red; }
-  </style>
-`);
