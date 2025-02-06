@@ -61,7 +61,7 @@ function renderCalendar(date) {
   const month = date.getMonth();
 
   // Set month-year heading
-  monthYear.textContent = ${date.toLocaleString('default', { month: 'long' })} ${year};
+  monthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
   // Get the first and last day of the month
   const firstDay = new Date(year, month, 1).getDay();
