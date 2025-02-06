@@ -23,9 +23,7 @@ if (accessToken) {
       console.error("Error during authentication:", error);
     });
 }
-  // Call the checkSession function when the page loads
-  window.onload = checkSession();
-        // Handle form submission
+// Handle form submission
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
