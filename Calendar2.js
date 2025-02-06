@@ -47,14 +47,14 @@ async function fetchEvents() {
 
 function renderCalendar(date) {
   // Clear the grid except for headers
-  calendarGrid.innerHTML = 
+  calendarGrid.innerHTML = `
     <div class="day-header">Sun</div>
     <div class="day-header">Mon</div>
     <div class="day-header">Tue</div>
     <div class="day-header">Wed</div>
     <div class="day-header">Thu</div>
     <div class="day-header">Fri</div>
-    <div class="day-header">Sat</div>
+    <div class="day-header">Sat</div>`
   ;
 
   const year = date.getFullYear();
