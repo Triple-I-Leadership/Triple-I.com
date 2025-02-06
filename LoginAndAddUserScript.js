@@ -40,7 +40,6 @@ if (accessToken) {
       console.error("Error during authentication:", error);
     });
 }
-      alert('User added successfully!');
 
 export async function checkSession() {
   // Get the current session from Supabase
