@@ -4,23 +4,6 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
 const supabase = createClient(supabaseUrl, supabaseKey);
-
-// Function to add the user to your `users` table (optional)
-  async function addUserToDatabase(username, email) {
-    const { data, error } = await supabase
-      .from('users')
-      .insert([
-        { username: username, email: email }
-      ]);
-
-    if (error) {
-      console.error('Error adding user to database:', error);
-    } else {
-      console.log('User added to users table:', data);
-      alert('User added successfully!');
-    }
-  };
-
 const hashParams = new URLSearchParams(window.location.hash.substring(1));
 const accessToken = hashParams.get('access_token');
 const refreshToken = hashParams.get('refresh_token');
