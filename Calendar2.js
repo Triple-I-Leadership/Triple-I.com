@@ -69,12 +69,12 @@ function renderCalendar(date) {
 
   // Add empty divs for days before the first day
   for (let i = 0; i < firstDay; i++) {
-    calendarGrid.innerHTML += <div class="day"></div>;
+    calendarGrid.innerHTML += '<div class="day"></div>';
   }
 
   // Add day numbers
   for (let day = 1; day <= lastDate; day++) {
-    const fullDate = ${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')};
+    const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const dayElement = document.createElement('div');
     dayElement.classList.add('day');
     dayElement.textContent = day;
@@ -107,7 +107,7 @@ function showEvents(date) {
     dayEvents.forEach(event => {
       const li = document.createElement('li');
       li.classList.add('event');
-      li.innerHTML = <strong>${event.title}</strong>: ${event.description};
+      li.innerHTML = `<strong>${event.title}</strong>: ${event.description}`;
       eventDetails.appendChild(li);
     });
   } else {
