@@ -8,28 +8,38 @@ document.getElementById("showUsersButton").addEventListener("click", fetchUsers)
 
 let users = [];
 
-async function fetchUsers() {
-  const { data, error } = await supabase
-    .from("users")
-    .select("*")
-    .limit(1000);
+async function fetchUsersMultipleTimes(attempts = 3, delay = 500) {
+  let allUsers = [];
 
-  if (error) {
-    console.error("Error fetching users:", error);
-    return;
+  for (let i = 0; i < attempts; i++) {
+    console.log(`Fetching users (Attempt ${i + 1}/${attempts})...`);
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("id, username, email, role");
+
+    if (error) {
+      console.error(`Error fetching users on attempt ${i + 1}:`, error);
+      continue; // Skip this attempt and try again
+    }
+
+    if (data.length > 0) {
+      allUsers = [...new Map([...allUsers, ...data].map(user => [user.id, user])).values()];
+    }
+
+    await new Promise(resolve => setTimeout(resolve, delay)); // Wait before next attempt
   }
 
-  console.log("Fetched Users:", data); // Debugging log
+  if (allUsers.length === 0) {
+    console.warn("No users found after multiple attempts.");
+  } else {
+    console.log("Final Users List:", allUsers);
+  }
 
-  users = data.map(user => ({
-    id: user.id,
-    username: user.username,
-    email: user.email,
-    role: user.role
-  }));
-
+  users = allUsers;
   renderUsers();
 }
+
 
 function renderUsers() {
   console.log("Rendering Users:", users); // Debugging log
