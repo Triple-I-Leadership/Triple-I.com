@@ -11,7 +11,7 @@ let users = [];
 async function fetchUsers() {
   const { data, error } = await supabase
     .from("users")
-    .select("id, username, email, role")
+    .select("*")
     .limit(1000);
 
   if (error) {
