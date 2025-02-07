@@ -8,36 +8,22 @@ document.getElementById("showUsersButton").addEventListener("click", fetchUsersM
 
 let users = [];
 
-async function fetchUsersMultipleTimes(attempts = 3, delay = 500) {
-  let allUsers = [];
-
-  for (let i = 0; i < attempts; i++) {
-    console.log(`Fetching users (Attempt ${i + 1}/${attempts})...`);
+async function fetchUsers() {
+    console.log("Fetching users...");
 
     const { data, error } = await supabase
-      .from("users")
-      .select("id, username, email, role");
+        .from("users")
+        .select("id, username, email, role");
 
     if (error) {
-      console.error(`Error fetching users on attempt ${i + 1}:`, error);
-      continue; // Skip this attempt and try again
+        console.error("Error fetching users:", error);
+        return;
     }
 
-    if (data.length > 0) {
-      allUsers = [...new Map([...allUsers, ...data].map(user => [user.id, user])).values()];
-    }
+    console.log("Users fetched from Supabase:", data); // Debugging log
 
-    await new Promise(resolve => setTimeout(resolve, delay)); // Wait before next attempt
-  }
-
-  if (allUsers.length === 0) {
-    console.warn("No users found after multiple attempts.");
-  } else {
-    console.log("Final Users List:", allUsers);
-  }
-
-  users = allUsers;
-  renderUsers();
+    users = data;
+    renderUsers();
 }
 
 
