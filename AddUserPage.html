@@ -18,6 +18,14 @@
     <label for="password">Password:</label>
     <input type="password" id="password" required><br><br>
 
+    <label for="role">Role:</label>
+    <select id="role" name="role" required>
+        <option value="" disabled selected>Select a role</option>
+        <option value="officer">Officer</option>
+        <option value="member">Member</option>
+        <option value="Volunteer">Volunteer</option>
+    </select>
+
     <button type="submit">Add User</button>
   </form>
         <script type="module">
@@ -40,8 +48,9 @@
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
 
-            await signUpAndAddUser(username, email, password);
+            await signUpAndAddUser(username, email, password, role);
         }
 
         async function signUpAndAddUser(username, email, password) {
@@ -58,7 +67,7 @@
 
                 const { data: insertData, error: insertError } = await supabase
                     .from('users')
-                    .insert([{ id: signUpData.user.id, username: username, email: email }]);
+                    .insert([{ id: signUpData.user.id, username: username, email: email, role: role}]);
 
                 if (insertError) {
                     console.error('Error adding user to table:', insertError.message);
