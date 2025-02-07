@@ -4,7 +4,7 @@ const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-document.getElementById("showUsersButton").addEventListener("click", fetchUsers);
+document.getElementById("showUsersButton").addEventListener("click", fetchUsersMultipleTimes);
 
 let users = [];
 
