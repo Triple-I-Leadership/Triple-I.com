@@ -32,6 +32,12 @@ async function fetchUsers() {
 }
 
 function renderUsers() {
+  console.log("Rendering Users:", users); // Debugging log
+
+  if (users.length === 0) {
+    console.warn("No users to display.");
+  }
+
   const container = document.getElementById("userContainer");
   container.style.display = 'block'; // Show the container after rendering users
   container.innerHTML = `
@@ -56,6 +62,8 @@ function renderUsers() {
       </tbody>
     </table>
   `;
+
+  console.log("Users displayed successfully.");
 }
 
 function getRoleClass(role) {
