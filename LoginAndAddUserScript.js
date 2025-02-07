@@ -25,19 +25,40 @@ if (accessToken) {
 }
 // Handle form submission
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+    e.preventDefault();
+    const userInput = document.getElementById('userInput').value;
+    const password = document.getElementById('password').value;
 
-            const { user, session, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
+    let email = userInput;
 
-            if (error) {
-                document.getElementById('errorMessage').innerText = error.message;
-            } else {
-                console.log('User logged in:', user);
-                window.location.href = 'Dashboard.html'
-            }
-        });
+    // Check if the user entered a username instead of an email
+    if (!userInput.includes('@')) {
+        // Look up the user by username in Supabase
+        const { data, error } = await supabase
+            .from('users')  // Adjust table name if necessary
+            .select('email')
+            .eq('username', userInput)
+            .single();
+
+        if (error || !data) {
+            document.getElementById('errorMessage').innerText = 'Invalid username or email.';
+            return;
+        }
+
+        // Use the retrieved email for authentication
+        email = data.email;
+    }
+
+    // Sign in with email/password
+    const { user, session, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        document.getElementById('errorMessage').innerText = error.message;
+    } else {
+        console.log('User logged in:', user);
+        window.location.href = 'Dashboard.html';
+    }
+});
