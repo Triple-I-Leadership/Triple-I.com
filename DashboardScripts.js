@@ -9,21 +9,26 @@ document.getElementById("showUsersButton").addEventListener("click", fetchUsers)
 let users = [];
 
 async function fetchUsers() {
-    console.log("Fetching users...");
+  const { data, error } = await supabase
+    .from("users")
+    .select("id, username, email, role")
+    .limit(1000);
 
-    const { data, error } = await supabase
-        .from("users")
-        .select("id, username, email, role");
+  if (error) {
+    console.error("Error fetching users:", error);
+    return;
+  }
 
-    if (error) {
-        console.error("Error fetching users:", error);
-        return;
-    }
+  console.log("Fetched Users:", data); // Debugging log
 
-    console.log("Users fetched from Supabase:", data); // Debugging log
+  users = data.map(user => ({
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    role: user.role
+  }));
 
-    users = data;
-    renderUsers();
+  renderUsers();
 }
 
 
