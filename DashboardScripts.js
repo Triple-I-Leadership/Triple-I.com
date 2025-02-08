@@ -12,7 +12,6 @@ async function fetchUsers() {
   const { data, error } = await supabase
     .from("users")
     .select("id, username, email, role")
-    .limit(1000);
 
   if (error) {
     console.error("Error fetching users:", error);
