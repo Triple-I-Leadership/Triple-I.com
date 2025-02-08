@@ -87,3 +87,7 @@ document.head.insertAdjacentHTML('beforeend', `
     }
   </style>
 `);
+
+document.getElementById("AddUserButton").addEventListener("click", function() {
+    window.location.href = 'AddUserPage.html';
+});
