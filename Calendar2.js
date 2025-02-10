@@ -87,12 +87,29 @@ function renderCalendar(date) {
       dayElement.classList.add('has-event');
     }
 
+    // Highlight selected date
+    if (selectedDate === fullDate) {
+      dayElement.classList.add('selected');
+    }
+
     dayElement.addEventListener('click', () => {
       selectedDate = fullDate;
+      highlightSelectedDate();
       showEvents(fullDate);
     });
 
     calendarGrid.appendChild(dayElement);
+  }
+}
+
+function highlightSelectedDate() {
+  // Remove highlight from previously selected date
+  document.querySelectorAll('.day.selected').forEach(el => el.classList.remove('selected'));
+
+  // Highlight the newly selected date
+  const selectedElement = document.querySelector(`.day[data-date='${selectedDate}']`);
+  if (selectedElement) {
+    selectedElement.classList.add('selected');
   }
 }
 
@@ -125,3 +142,4 @@ nextButton.addEventListener('click', () => {
 
 // Initial fetch and render
 fetchEvents();
+
