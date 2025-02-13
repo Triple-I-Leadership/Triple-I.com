@@ -35,18 +35,72 @@ async function fetchEvents() {
     if (isNaN(startDate) || isNaN(endDate)) return;
 
     let currentDate = new Date(startDate);
+    let eventTimeRange = formatTime(startDate) + " - " + formatTime(endDate);
+
     while (currentDate <= endDate) {
       const dateStr = currentDate.toISOString().slice(0, 10);
+
       if (dateStr !== event.date) {
         multiDayEvents.add(dateStr);
       }
-      events.push({ date: dateStr, title: event.event, description: event.description || "No description" });
+
+      // If multi-day event, format as "Feb 12th 7:30 AM - Feb 14th 9:30 AM"
+      if (dateStr === startDate.toISOString().slice(0, 10)) {
+        eventTimeRange = `${formatDate(startDate)} ${formatTime(startDate)} - ${formatDate(endDate)} ${formatTime(endDate)}`;
+      }
+
+      events.push({
+        date: dateStr,
+        title: eventTimeRange, // Use time instead of event name
+        description: event.description || "No description"
+      });
+
       currentDate.setDate(currentDate.getDate() + 1);
     }
   });
 
   renderCalendar(currentDate);
 }
+
+// Helper function to format time (e.g., "7:30 AM")
+function formatTime(date) {
+  return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+}
+
+// Helper function to format date for multi-day events (e.g., "Feb 12th")
+function formatDate(date) {
+  const options = { month: 'short', day: 'numeric' };
+  const daySuffix = getDaySuffix(date.getDate());
+  return date.toLocaleDateString('en-US', options) + daySuffix;
+}
+
+// Helper function to get "st", "nd", "rd", or "th" for a date
+function getDaySuffix(day) {
+  if (day > 3 && day < 21) return "th"; 
+  switch (day % 10) {
+    case 1: return "st";
+    case 2: return "nd";
+    case 3: return "rd";
+    default: return "th";
+  }
+}
+
+function showEvents(date) {
+  eventDetails.innerHTML = ''; 
+  const dayEvents = events.filter(event => event.date === date);
+
+  if (dayEvents.length > 0) {
+    dayEvents.forEach(event => {
+      const li = document.createElement('li');
+      li.classList.add('event');
+      li.innerHTML = `<strong>${event.title}</strong>: ${event.description}`;
+      eventDetails.appendChild(li);
+    });
+  } else {
+    eventDetails.innerHTML = '<li class="event">No events for this day.</li>';
+  }
+}
+
 
 function renderCalendar(date) {
   calendarGrid.innerHTML = `
@@ -105,22 +159,6 @@ function highlightSelectedDate() {
   const selectedElement = document.querySelector(`.day[data-date='${selectedDate}']`);
   if (selectedElement) {
     selectedElement.classList.add('selected');
-  }
-}
-
-function showEvents(date) {
-  eventDetails.innerHTML = ''; 
-  const dayEvents = events.filter(event => event.date === date);
-
-  if (dayEvents.length > 0) {
-    dayEvents.forEach(event => {
-      const li = document.createElement('li');
-      li.classList.add('event');
-      li.innerHTML = `<strong>${event.title}</strong>: ${event.description}`;
-      eventDetails.appendChild(li);
-    });
-  } else {
-    eventDetails.innerHTML = '<li class="event">No events for this day.</li>';
   }
 }
 
