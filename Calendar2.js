@@ -8,12 +8,13 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 // Initialize Supabase client
 const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg';
+const supabaseKey = 'YOUR_SUPABASE_KEY';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 let currentDate = new Date();
 let selectedDate = null;
 let events = [];
+let multiDayEvents = new Set();
 
 async function fetchEvents() {
   const { data, error } = await supabase.from('calendar_events').select('id, event, date, end_date, description');
@@ -23,30 +24,26 @@ async function fetchEvents() {
     return;
   }
 
-  events = data.map(event => {
-    if (!event || !event.date || !event.end_date) {
-      console.warn("Skipping invalid event:", event);
-      return null;
-    }
+  events = [];
+  multiDayEvents.clear();
+
+  data.forEach(event => {
+    if (!event || !event.date || !event.end_date) return;
 
     const startDate = new Date(event.date);
     const endDate = new Date(event.end_date);
+    if (isNaN(startDate) || isNaN(endDate)) return;
 
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      console.warn("Invalid date format:", event.date, event.end_date);
-      return null;
+    let currentDate = new Date(startDate);
+    while (currentDate <= endDate) {
+      const dateStr = currentDate.toISOString().slice(0, 10);
+      if (dateStr !== event.date) {
+        multiDayEvents.add(dateStr);
+      }
+      events.push({ date: dateStr, title: event.event, description: event.description || "No description" });
+      currentDate.setDate(currentDate.getDate() + 1);
     }
-
-    const dateStr = startDate.toISOString().slice(0, 10);
-    const startTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const endTime = endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    return {
-      date: dateStr,
-      title: `${startTime} - ${endTime}`,
-      description: event.description || "No description"
-    };
-  }).filter(event => event !== null);
+  });
 
   renderCalendar(currentDate);
 }
@@ -69,12 +66,10 @@ function renderCalendar(date) {
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
 
-  // Add empty divs for padding before first day of month
   for (let i = 0; i < firstDay; i++) {
     calendarGrid.innerHTML += '<div class="day empty"></div>';
   }
 
-  // Add actual day numbers with events
   for (let day = 1; day <= lastDate; day++) {
     const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const dayElement = document.createElement('div');
@@ -83,11 +78,14 @@ function renderCalendar(date) {
     dayElement.dataset.date = fullDate;
 
     const dayEvents = events.filter(event => event.date === fullDate);
+    const isMultiDay = multiDayEvents.has(fullDate);
+    
     if (dayEvents.length > 0) {
       dayElement.classList.add('has-event');
+    } else if (isMultiDay && !dayEvents.length) {
+      dayElement.classList.add('multi-day-event');
     }
 
-    // Highlight selected date
     if (selectedDate === fullDate) {
       dayElement.classList.add('selected');
     }
@@ -103,10 +101,7 @@ function renderCalendar(date) {
 }
 
 function highlightSelectedDate() {
-  // Remove highlight from previously selected date
   document.querySelectorAll('.day.selected').forEach(el => el.classList.remove('selected'));
-
-  // Highlight the newly selected date
   const selectedElement = document.querySelector(`.day[data-date='${selectedDate}']`);
   if (selectedElement) {
     selectedElement.classList.add('selected');
@@ -129,7 +124,6 @@ function showEvents(date) {
   }
 }
 
-// Navigate months
 prevButton.addEventListener('click', () => {
   currentDate.setMonth(currentDate.getMonth() - 1);
   renderCalendar(currentDate);
@@ -140,6 +134,5 @@ nextButton.addEventListener('click', () => {
   renderCalendar(currentDate);
 });
 
-// Initial fetch and render
 fetchEvents();
 
