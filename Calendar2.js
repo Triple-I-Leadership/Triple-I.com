@@ -30,28 +30,33 @@ async function fetchEvents() {
   data.forEach(event => {
     if (!event || !event.date || !event.end_date) return;
 
-    const startDate = new Date(event.date);
-    const endDate = new Date(event.end_date);
-    if (isNaN(startDate) || isNaN(endDate)) return;
+    const startDate = new Date(event.date + "T00:00:00Z"); // Fix timezone issue
+    const endDate = new Date(event.end_date + "T23:59:59Z");
 
-    let currentDate = new Date(startDate);
-    let eventTimeRange = formatTime(startDate) + " - " + formatTime(endDate);
+    // Convert UTC dates to **local timezone**
+    const localStartDate = new Date(startDate.toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
+    const localEndDate = new Date(endDate.toLocaleString("en-US", { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone }));
 
-    while (currentDate <= endDate) {
+    if (isNaN(localStartDate) || isNaN(localEndDate)) return;
+
+    let currentDate = new Date(localStartDate);
+    let eventTimeRange = formatTime(localStartDate) + " - " + formatTime(localEndDate);
+
+    while (currentDate <= localEndDate) {
       const dateStr = currentDate.toISOString().slice(0, 10);
 
-      if (dateStr !== event.date) {
+      if (dateStr !== localStartDate.toISOString().slice(0, 10)) {
         multiDayEvents.add(dateStr);
       }
 
-      // If multi-day event, format as "Feb 12th 7:30 AM - Feb 14th 9:30 AM"
-      if (dateStr === startDate.toISOString().slice(0, 10)) {
-        eventTimeRange = `${formatDate(startDate)} ${formatTime(startDate)} - ${formatDate(endDate)} ${formatTime(endDate)}`;
+      // Format multi-day events
+      if (dateStr === localStartDate.toISOString().slice(0, 10)) {
+        eventTimeRange = `${formatDate(localStartDate)} ${formatTime(localStartDate)} - ${formatDate(localEndDate)} ${formatTime(localEndDate)}`;
       }
 
       events.push({
         date: dateStr,
-        title: eventTimeRange, // Use time instead of event name
+        title: eventTimeRange, // Correct time range
         description: event.description || "No description"
       });
 
@@ -67,16 +72,16 @@ function formatTime(date) {
   return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
 }
 
-// Helper function to format date for multi-day events (e.g., "Feb 12th")
+// Helper function to format date (e.g., "Feb 12th")
 function formatDate(date) {
   const options = { month: 'short', day: 'numeric' };
   const daySuffix = getDaySuffix(date.getDate());
   return date.toLocaleDateString('en-US', options) + daySuffix;
 }
 
-// Helper function to get "st", "nd", "rd", or "th" for a date
+// Helper function for date suffix (st, nd, rd, th)
 function getDaySuffix(day) {
-  if (day > 3 && day < 21) return "th"; 
+  if (day > 3 && day < 21) return "th";
   switch (day % 10) {
     case 1: return "st";
     case 2: return "nd";
