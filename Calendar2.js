@@ -107,7 +107,7 @@ function highlightSelectedDate() {
   document.querySelectorAll('.day.selected').forEach(el => el.classList.remove('selected'));
 
   // Highlight the newly selected date
-  const selectedElement = document.querySelector(.day[data-date='${selectedDate}']);
+  const selectedElement = document.querySelector('.day[data-date='${selectedDate}'']);
   if (selectedElement) {
     selectedElement.classList.add('selected');
   }
