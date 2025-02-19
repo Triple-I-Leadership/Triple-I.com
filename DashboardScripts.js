@@ -181,4 +181,4 @@ document.head.insertAdjacentHTML('beforeend', `
 // Redirect to AddEventsPage.html when clicking the Add Events button
 document.getElementById("AddEventsButton").addEventListener("click", function() {
     window.location.href = 'AddEventsPage.html';
-});-
+});
