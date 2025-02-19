@@ -96,7 +96,7 @@ document.getElementById("AddUserButton").addEventListener("click", function() {
     window.location.href = 'AddUserPage.html';
 });
 
-document.getElementById("ShowEventsButton").addEventListener("click", fetchUsers);
+document.getElementById("ShowEventsButton").addEventListener("click", fetchEvents);
 
 let events = [];
 
