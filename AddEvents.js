@@ -23,8 +23,8 @@ document.getElementById("submitEvent").addEventListener("click", async function(
         .insert([
             {
                 event: event,
-                date: date,
-                end_date: end_date,
+                date: startDate,
+                end_date: endDate,
                 description: description
             }
         ]);
