@@ -114,7 +114,7 @@ async function fetchEvents() {
 
   events = data.map(event => ({
     id: event.id,
-    uuid: event.uuid,
+    uuid: event.user_id,
     event: event.event,
     start_date: event.date,
     end_date: event.end_date
@@ -147,7 +147,7 @@ function renderEvents() {
       <tbody border="1">
         ${events.map(event => `
             <td>${event.id}</td>
-            <td>${event.uuid}</td>
+            <td>${event.user_id}</td>
             <td>${event.event}</td>
             <td>${event.start_date}</td>
             <td>${event.end_date}
