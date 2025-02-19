@@ -95,3 +95,87 @@ document.head.insertAdjacentHTML('beforeend', `
 document.getElementById("AddUserButton").addEventListener("click", function() {
     window.location.href = 'AddUserPage.html';
 });
+
+document.getElementById("ShowEventsButton").addEventListener("click", fetchUsers);
+
+let events = [];
+
+async function fetchUsers() {
+  const { data, error } = await supabase
+    .from("calendar_events")
+    .select("id, user_id, event, date, end_date")
+
+  if (error) {
+    console.error("Error fetching users:", error);
+    return;
+  }
+
+  console.log("Fetched Events:", data); // Debugging log
+
+  events = data.map(event => ({
+    id: event.id,
+    uuid: event.uuid,
+    event: event.event,
+    start_date: event.date,
+    end_date: event.end_date
+  }));
+
+  renderUsers();
+}
+
+
+function renderUsers() {
+  console.log("Rendering Users:", users); // Debugging log
+
+  if (users.length === 0) {
+    console.warn("No users to display.");
+  }
+
+  const container = document.getElementById("eventContainer");
+  container.style.display = 'block'; // Show the container after rendering users
+  container.innerHTML = `
+    <table border="1" class="events-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Uuid</th>
+          <th>Event</th>
+          <th>Start Date</th>
+          <th>End Date</tyh
+        </tr>
+      </thead>
+      <tbody border="1">
+        ${events.map(event => `
+            <td>${event.id}</td>
+            <td>${event.uuid}</td>
+            <td>${event.event}</td>
+            <td>${event.start_date}</td>
+            <td>${event.end_date}
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+
+  console.log("Users displayed successfully.");
+}
+
+document.head.insertAdjacentHTML('beforeend', `
+  <style>
+    .events-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .events-table th, .events-table td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    #eventsContainer {
+      display: none; /* Initially hide the user container */
+    }
+  </style>
+`);
+
+document.getElementById("AddEventsButton").addEventListener("click", function() {
+    window.location.href = 'AddEventsPage.html';
+});
