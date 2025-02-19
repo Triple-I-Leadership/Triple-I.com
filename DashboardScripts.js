@@ -116,11 +116,21 @@ async function fetchEvents() {
     id: event.id,
     uuid: event.user_id,
     event: event.event,
-    start_date: event.date,
-    end_date: event.end_date
+    start_date: convertToLocalTime(event.date),  // ✅ Convert to local time
+    end_date: convertToLocalTime(event.end_date) // ✅ Convert to local time
   }));
 
   renderEvents();
+}
+
+// ✅ Function to Convert UTC Time to Local
+function convertToLocalTime(utcDateTime) {
+  if (!utcDateTime) return "N/A"; // Handle null values gracefully
+  const date = new Date(utcDateTime);
+  return date.toLocaleString([], { 
+    year: 'numeric', month: 'short', day: 'numeric',
+    hour: '2-digit', minute: '2-digit', hour12: true 
+  }); // Formats like: "Jan 15, 2025, 3:30 PM"
 }
 
 function renderEvents() {
