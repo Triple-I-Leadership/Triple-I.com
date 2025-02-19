@@ -103,10 +103,10 @@ let events = [];
 async function fetchEvents() {
   const { data, error } = await supabase
     .from("calendar_events")
-    .select("id, user_id, event, date, end_date")
+    .select("id, user_id, event, date, end_date");
 
   if (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching events:", error);
     return;
   }
 
@@ -123,42 +123,44 @@ async function fetchEvents() {
   renderEvents();
 }
 
-
 function renderEvents() {
-  console.log("Rendering Users:", users); // Debugging log
+  console.log("Rendering Events:", events); // Corrected log
 
-  if (users.length === 0) {
-    console.warn("No users to display.");
+  if (events.length === 0) {
+    console.warn("No events to display.");
   }
 
   const container = document.getElementById("eventContainer");
-  container.style.display = 'block'; // Show the container after rendering users
+  container.style.display = 'block'; // Show the container after rendering events
   container.innerHTML = `
     <table border="1" class="events-table">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Uuid</th>
+          <th>UUID</th>
           <th>Event</th>
           <th>Start Date</th>
           <th>End Date</th>
         </tr>
       </thead>
-      <tbody border="1">
+      <tbody>
         ${events.map(event => `
+          <tr>
             <td>${event.id}</td>
-            <td>${event.user_id}</td>
+            <td>${event.uuid}</td>
             <td>${event.event}</td>
             <td>${event.start_date}</td>
             <td>${event.end_date}</td>
+          </tr>
         `).join('')}
       </tbody>
     </table>
   `;
 
-  console.log("Users displayed successfully.");
+  console.log("Events displayed successfully.");
 }
 
+// CSS for styling the table
 document.head.insertAdjacentHTML('beforeend', `
   <style>
     .events-table {
@@ -170,12 +172,13 @@ document.head.insertAdjacentHTML('beforeend', `
       padding: 8px;
       text-align: left;
     }
-    #eventsContainer {
-      display: none; /* Initially hide the user container */
+    #eventContainer {
+      display: none; /* Initially hide the container */
     }
   </style>
 `);
 
+// Redirect to AddEventsPage.html when clicking the Add Events button
 document.getElementById("AddEventsButton").addEventListener("click", function() {
     window.location.href = 'AddEventsPage.html';
-});
+});-
