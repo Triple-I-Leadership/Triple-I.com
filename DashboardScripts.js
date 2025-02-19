@@ -100,7 +100,7 @@ document.getElementById("ShowEventsButton").addEventListener("click", fetchUsers
 
 let events = [];
 
-async function fetchUsers() {
+async function fetchEvents() {
   const { data, error } = await supabase
     .from("calendar_events")
     .select("id, user_id, event, date, end_date")
@@ -120,11 +120,11 @@ async function fetchUsers() {
     end_date: event.end_date
   }));
 
-  renderUsers();
+  renderEvents();
 }
 
 
-function renderUsers() {
+function renderEvents() {
   console.log("Rendering Users:", users); // Debugging log
 
   if (users.length === 0) {
