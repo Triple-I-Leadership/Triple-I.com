@@ -141,7 +141,7 @@ function renderEvents() {
           <th>Uuid</th>
           <th>Event</th>
           <th>Start Date</th>
-          <th>End Date</tyh
+          <th>End Date</th>
         </tr>
       </thead>
       <tbody border="1">
@@ -150,7 +150,7 @@ function renderEvents() {
             <td>${event.user_id}</td>
             <td>${event.event}</td>
             <td>${event.start_date}</td>
-            <td>${event.end_date}
+            <td>${event.end_date}</td>
         `).join('')}
       </tbody>
     </table>
