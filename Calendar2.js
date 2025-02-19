@@ -15,6 +15,16 @@ let currentDate = new Date();
 let selectedDate = null;
 let events = [];
 
+// ✅ Function to Convert UTC Time to Local
+function convertToLocalTime(utcDateTime) {
+    const date = new Date(utcDateTime);
+    return {
+        date: date.toISOString().slice(0, 10), // YYYY-MM-DD format for event matching
+        time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) // Local time
+    };
+}
+
+// ✅ Fetch Events and Convert Time to Local
 async function fetchEvents() {
   const { data, error } = await supabase.from('calendar_events').select('id, event, date, end_date, description');
 
@@ -29,21 +39,12 @@ async function fetchEvents() {
       return null;
     }
 
-    const startDate = new Date(event.date);
-    const endDate = new Date(event.end_date);
-
-    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
-      console.warn("Invalid date format:", event.date, event.end_date);
-      return null;
-    }
-
-    const dateStr = startDate.toISOString().slice(0, 10);
-    const startTime = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const endTime = endDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const startDateLocal = convertToLocalTime(event.date);
+    const endDateLocal = convertToLocalTime(event.end_date);
 
     return {
-      date: dateStr,
-      title: `${startTime} - ${endTime}`,
+      date: startDateLocal.date, // Store as YYYY-MM-DD for event matching
+      title: `${startDateLocal.time} - ${endDateLocal.time}`, // Display local time
       description: event.description || "No description"
     };
   }).filter(event => event !== null);
@@ -51,6 +52,7 @@ async function fetchEvents() {
   renderCalendar(currentDate);
 }
 
+// ✅ Render Calendar and Highlight Events
 function renderCalendar(date) {
   calendarGrid.innerHTML = `
     <div class="day-header">Sun</div>
@@ -102,17 +104,16 @@ function renderCalendar(date) {
   }
 }
 
+// ✅ Highlight Selected Date
 function highlightSelectedDate() {
-  // Remove highlight from previously selected date
   document.querySelectorAll('.day.selected').forEach(el => el.classList.remove('selected'));
-
-  // Highlight the newly selected date
   const selectedElement = document.querySelector(`.day[data-date='${selectedDate}']`);
   if (selectedElement) {
     selectedElement.classList.add('selected');
   }
 }
 
+// ✅ Show Events for Selected Date
 function showEvents(date) {
   eventDetails.innerHTML = ''; 
   const dayEvents = events.filter(event => event.date === date);
@@ -129,7 +130,7 @@ function showEvents(date) {
   }
 }
 
-// Navigate months
+// ✅ Navigate Between Months
 prevButton.addEventListener('click', () => {
   currentDate.setMonth(currentDate.getMonth() - 1);
   renderCalendar(currentDate);
@@ -140,5 +141,5 @@ nextButton.addEventListener('click', () => {
   renderCalendar(currentDate);
 });
 
-// Initial fetch and render
+// ✅ Initial Fetch and Render
 fetchEvents();
