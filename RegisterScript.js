@@ -1,37 +1,19 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-// Initialize Supabase client
-const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg'; // Replace with your actual key
+const supabaseUrl = "https://fvypinxntxcpebvrrqpv.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2eXBpbnhudHhjcGVidnJycXB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjczMTAyMDksImV4cCI6MjA0Mjg4NjIwOX0.Njr9v6k_QjA4ocszgB6SaPBauKvA4jNQSUj1cdOXCDg";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('registerForm');
-    
-    if (form) {
-        form.addEventListener('submit', handleSignup);
-    } else {
-        console.error("Form element not found!");
-    }
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("registerForm").addEventListener("submit", handleSignup);
 });
 
 async function handleSignup(event) {
-    event.preventDefault(); // Prevents default form submission behavior
+    event.preventDefault();
 
-    const username = document.getElementById('username').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const errorMessage = document.getElementById('errorMessage');
-    const successMessage = document.getElementById('successMessage');
-
-    // Clear messages
-    errorMessage.textContent = '';
-    successMessage.textContent = '';
-
-    if (!username || !email || !password) {
-        errorMessage.textContent = 'All fields are required.';
-        return;
-    }
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email,
@@ -39,21 +21,46 @@ async function handleSignup(event) {
     });
 
     if (signUpError) {
-        errorMessage.textContent = `Sign-up failed: ${signUpError.message}`;
-    } else {
-        console.log('User signed up successfully:', signUpData);
+        console.error("Sign-up error:", signUpError.message);
+        alert("Sign-up failed: " + signUpError.message);
+        return;
+    }
 
-        const { data: insertData, error: insertError } = await supabase
-            .from('users')
-            .insert([{ id: signUpData.user.id, username, email }]);
+    // Generate a 6-digit verification code
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
 
-        if (insertError) {
-            errorMessage.textContent = `Failed to add user to table: ${insertError.message}`;
-        } else {
-            successMessage.textContent = 'Sign-up successful! Redirecting...';
-            setTimeout(() => {
-                window.location.href = 'Dashboard.html';
-            }, 2000);
+    // Store the code in Supabase
+    const { error: insertError } = await supabase.from("verification_codes").insert([
+        {
+            user_id: signUpData.user.id,
+            code: verificationCode,
+            expires_at: new Date(Date.now() + 15 * 60 * 1000).toISOString(), // Expires in 15 mins
         }
+    ]);
+
+    if (insertError) {
+        console.error("Error storing verification code:", insertError.message);
+        alert("Failed to generate verification code.");
+        return;
+    }
+
+    // Send verification email
+    await sendVerificationEmail(email, verificationCode);
+
+    // Redirect to the verification page
+    window.location.href = `verify.html?email=${encodeURIComponent(email)}`;
+}
+
+async function sendVerificationEmail(email, code) {
+    const { error } = await supabase.auth.api.sendMagicLinkEmail(email, {
+        subject: "Verify Your Account",
+        html: `<p>Your verification code is: <strong>${code}</strong></p><p>It expires in 15 minutes.</p>`,
+    });
+
+    if (error) {
+        console.error("Error sending verification email:", error.message);
+        alert("Failed to send verification email.");
+    } else {
+        console.log("Verification email sent successfully.");
     }
 }
