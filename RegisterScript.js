@@ -6,11 +6,17 @@ const supabaseKey = 'YOUR_SUPABASE_ANON_KEY'; // Replace with your actual key
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('registerForm').addEventListener('submit', handleSignup);
+    const form = document.getElementById('registerForm');
+    
+    if (form) {
+        form.addEventListener('submit', handleSignup);
+    } else {
+        console.error("Form element not found!");
+    }
 });
 
 async function handleSignup(event) {
-    event.preventDefault();
+    event.preventDefault(); // Prevents default form submission behavior
 
     const username = document.getElementById('username').value.trim();
     const email = document.getElementById('email').value.trim();
