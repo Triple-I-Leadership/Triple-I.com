@@ -30,7 +30,6 @@ async function fetchUsers() {
   renderUsers();
 }
 
-
 function renderUsers() {
   console.log("Rendering Users:", users); // Debugging log
 
@@ -89,6 +88,7 @@ document.head.insertAdjacentHTML('beforeend', `
     #userContainer {
       display: none; /* Initially hide the user container */
     }
+    .required-event { background-color: yellow !important; font-weight: bold; }
   </style>
 `);
 
@@ -103,7 +103,7 @@ let events = [];
 async function fetchEvents() {
   const { data, error } = await supabase
     .from("calendar_events")
-    .select("id, user_id, event, date, end_date");
+    .select("id, user_id, event, date, end_date, required");
 
   if (error) {
     console.error("Error fetching events:", error);
@@ -117,7 +117,8 @@ async function fetchEvents() {
     uuid: event.user_id,
     event: event.event,
     start_date: convertToLocalTime(event.date),  // ✅ Convert to local time
-    end_date: convertToLocalTime(event.end_date) // ✅ Convert to local time
+    end_date: convertToLocalTime(event.end_date), // ✅ Convert to local time
+    required: event.Required // Highlight if required
   }));
 
   renderEvents();
@@ -155,7 +156,7 @@ function renderEvents() {
       </thead>
       <tbody>
         ${events.map(event => `
-          <tr>
+          <tr class="${event.required ? 'required-event' : ''}">
             <td>${event.id}</td>
             <td>${event.uuid}</td>
             <td>${event.event}</td>
@@ -170,25 +171,6 @@ function renderEvents() {
   console.log("Events displayed successfully.");
 }
 
-// CSS for styling the table
-document.head.insertAdjacentHTML('beforeend', `
-  <style>
-    .events-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    .events-table th, .events-table td {
-      border: 1px solid black;
-      padding: 8px;
-      text-align: left;
-    }
-    #eventContainer {
-      display: none; /* Initially hide the container */
-    }
-  </style>
-`);
-
-// Redirect to AddEventsPage.html when clicking the Add Events button
 document.getElementById("AddEventsButton").addEventListener("click", function() {
     window.location.href = 'AddEventsPage.html';
 });
