@@ -78,7 +78,7 @@ function renderCalendar(date) {
 
   // Add actual day numbers with events
   for (let day = 1; day <= lastDate; day++) {
-    const fullDate = ${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')};
+    const fullDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     const dayElement = document.createElement('div');
     dayElement.classList.add('day');
     dayElement.textContent = day;
