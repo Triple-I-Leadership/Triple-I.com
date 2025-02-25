@@ -24,14 +24,15 @@ function convertToLocalTime(utcDateTime) {
     };
 }
 
-// ✅ Fetch Events and Convert Time to Local
 async function fetchEvents() {
-  const { data, error } = await supabase.from('calendar_events').select('id, event, date, end_date, description');
+  const { data, error } = await supabase.from('calendar_events').select('id, event, date, end_date, description, required');
 
   if (error) {
     console.error('Error fetching events:', error);
     return;
   }
+
+  console.log("Raw Events from DB:", data); // Debugging output
 
   events = data.map(event => {
     if (!event || !event.date || !event.end_date) {
@@ -43,11 +44,14 @@ async function fetchEvents() {
     const endDateLocal = convertToLocalTime(event.end_date);
 
     return {
-      date: startDateLocal.date, // Store as YYYY-MM-DD for event matching
-      title: `${startDateLocal.time} - ${endDateLocal.time}`, // Display local time
-      description: event.description || "No description"
+      date: startDateLocal.date, 
+      title: `${startDateLocal.time} - ${endDateLocal.time}`,
+      description: event.description || "No description",
+      required: event.required || false // Ensure required flag is accounted for
     };
   }).filter(event => event !== null);
+
+  console.log("Processed Events:", events); // Debugging output
 
   renderCalendar(currentDate);
 }
