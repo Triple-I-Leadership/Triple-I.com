@@ -20,6 +20,11 @@ async function handleSignup(event) {
         password
     });
 
+    const {error: signUpError } = await supabase.from("users").insert({
+        email,
+        username
+    });
+    
     if (signUpError) {
         console.error("Sign-up error:", signUpError.message);
         alert("Sign-up failed: " + signUpError.message);
