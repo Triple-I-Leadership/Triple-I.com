@@ -107,7 +107,7 @@ function renderCalendar(date) {
 // ✅ Highlight Selected Date
 function highlightSelectedDate() {
   document.querySelectorAll('.day.selected').forEach(el => el.classList.remove('selected'));
-  const selectedElement = document.querySelector(.day[data-date='${selectedDate}']);
+  const selectedElement = document.querySelector(`.day[data-date='${selectedDate}']`);
   if (selectedElement) {
     selectedElement.classList.add('selected');
   }
