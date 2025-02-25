@@ -18,6 +18,15 @@ document.getElementById("submitEvent").addEventListener("click", async function(
         return;
     }
 
+    // Convert input dates to UTC format
+    function convertToUTC(localDate) {
+        const date = new Date(localDate); // Convert input to Date object
+        return date.toISOString(); // Returns in UTC (ISO 8601 format)
+    }
+
+    const utcStartDate = convertToUTC(startDate);
+    const utcEndDate = convertToUTC(endDate);
+
     // ✅ Get the logged-in user
     const { data: { user }, error: userError } = await supabase.auth.getUser();
 
@@ -37,8 +46,8 @@ document.getElementById("submitEvent").addEventListener("click", async function(
             {
                 user_id: userId,  // Include the user's ID
                 event: eventName,
-                date: startDate,
-                end_date: endDate,
+                date: utcStartDate,  // Store as UTC
+                end_date: utcEndDate, // Store as UTC
                 description: description
             }
         ]);
