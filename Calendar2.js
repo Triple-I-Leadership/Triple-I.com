@@ -44,7 +44,7 @@ async function fetchEvents() {
 
     return {
       date: startDateLocal.date, // Store as YYYY-MM-DD for event matching
-      title: ${startDateLocal.time} - ${endDateLocal.time}, // Display local time
+      title: `${startDateLocal.time} - ${endDateLocal.time}`, // Display local time
       description: event.description || "No description"
     };
   }).filter(event => event !== null);
@@ -66,7 +66,7 @@ function renderCalendar(date) {
 
   const year = date.getFullYear();
   const month = date.getMonth();
-  monthYear.textContent = ${date.toLocaleString('default', { month: 'long' })} ${year};
+  monthYear.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
 
   const firstDay = new Date(year, month, 1).getDay();
   const lastDate = new Date(year, month + 1, 0).getDate();
@@ -122,7 +122,7 @@ function showEvents(date) {
     dayEvents.forEach(event => {
       const li = document.createElement('li');
       li.classList.add('event');
-      li.innerHTML = <strong>${event.title}</strong>: ${event.description};
+      li.innerHTML = `<strong>${event.title}</strong>: ${event.description}`;
       eventDetails.appendChild(li);
     });
   } else {
