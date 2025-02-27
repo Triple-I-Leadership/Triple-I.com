@@ -180,3 +180,7 @@ function renderEvents() {
 document.getElementById("AddEventsButton").addEventListener("click", function() {
     window.location.href = 'AddEventsPage.html';
 });
+
+document.getElementById("CODEventsButton").addEventListener("click", function() {
+    window.location.href = 'ChangeOrDeleteEvents.html';
+});
