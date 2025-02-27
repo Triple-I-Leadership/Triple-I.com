@@ -103,7 +103,7 @@ let events = [];
 async function fetchEvents() {
   const { data, error } = await supabase
     .from("calendar_events")
-    .select("id, user_id, event, date, end_date, required");
+    .select("id, user_id, event, date, end_date, required")
     .order("date", {ascending: true}); // Orders by earliest date to latest date which should technicially be in ID order but maybe not
   
   if (error) {
