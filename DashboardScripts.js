@@ -143,6 +143,9 @@ function renderEvents() {
 
   const container = document.getElementById("eventContainer");
   container.style.display = 'block'; // Show the container after rendering events
+  container.innerHTML = ''
+
+  setTimeout(() => { // Delay update to ensure UI updates
   container.innerHTML = `
     <table border="1" class="events-table">
       <thead>
@@ -152,6 +155,7 @@ function renderEvents() {
           <th>Event</th>
           <th>Start Date</th>
           <th>End Date</th>
+          <th>Required</th>
         </tr>
       </thead>
       <tbody>
@@ -162,16 +166,13 @@ function renderEvents() {
             <td>${event.event}</td>
             <td>${event.start_date}</td>
             <td>${event.end_date}</td>
-            <td>${event.required}</td>
           </tr>
         `).join('')}
       </tbody>
     </table>
   `;
-
   console.log("Events displayed successfully.");
-}
-
+}, 100);
 document.getElementById("AddEventsButton").addEventListener("click", function() {
     window.location.href = 'AddEventsPage.html';
 });
