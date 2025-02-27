@@ -118,7 +118,7 @@ async function fetchEvents() {
     event: event.event,
     start_date: convertToLocalTime(event.date),  // ✅ Convert to local time
     end_date: convertToLocalTime(event.end_date), // ✅ Convert to local time
-    required: event.Required // Highlight if required
+    required: event.required // Highlight if required
   }));
 
   renderEvents();
@@ -162,6 +162,7 @@ function renderEvents() {
             <td>${event.event}</td>
             <td>${event.start_date}</td>
             <td>${event.end_date}</td>
+            <td>${event.required}</td>
           </tr>
         `).join('')}
       </tbody>
