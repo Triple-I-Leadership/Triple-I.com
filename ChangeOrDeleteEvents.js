@@ -94,3 +94,7 @@ window.deleteEvent = async function (id) {
 
 // ✅ Load Events on Page Load
 fetchEvents();
+
+document.getElementById("Go_Back").addEventListener("click", function() {
+    window.location.href = 'Dashboard.html';
+});
