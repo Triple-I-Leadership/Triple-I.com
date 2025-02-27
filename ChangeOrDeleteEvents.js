@@ -35,6 +35,7 @@ async function fetchEvents() {
         const row = document.createElement("tr");
 
         row.innerHTML = `
+            <td>${event.id}</td>
             <td>${event.event}</td>
             <td>${convertToLocalTime(event.date)}</td>
             <td>${convertToLocalTime(event.end_date)}</td>
