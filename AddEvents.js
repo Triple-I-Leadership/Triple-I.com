@@ -69,3 +69,7 @@ document.getElementById("submitEvent").addEventListener("click", async function(
         document.getElementById("required").value = "true"; // Reset dropdown
     }
 });
+
+document.getElementById("Go_Back").addEventListener("click", function() {
+    window.location.href = 'Dashboard.html';
+});
