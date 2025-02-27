@@ -172,7 +172,9 @@ function renderEvents() {
     </table>
   `;
   console.log("Events displayed successfully.");
-}, 100);
+  }, 100);
+};
+
 document.getElementById("AddEventsButton").addEventListener("click", function() {
     window.location.href = 'AddEventsPage.html';
 });
