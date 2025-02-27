@@ -166,6 +166,7 @@ function renderEvents() {
             <td>${event.event}</td>
             <td>${event.start_date}</td>
             <td>${event.end_date}</td>
+            <td>${event.required}</td>
           </tr>
         `).join('')}
       </tbody>
