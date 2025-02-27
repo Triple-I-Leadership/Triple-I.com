@@ -12,6 +12,7 @@ async function fetchUsers() {
   const { data, error } = await supabase
     .from("users")
     .select("id, username, email, role")
+    .order("date", {ascending: true}); // Orders by earliest date to latest date which should technicially be in ID order but maybe not
 
   if (error) {
     console.error("Error fetching users:", error);
