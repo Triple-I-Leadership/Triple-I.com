@@ -71,11 +71,33 @@ window.resetUserPassword = async function (userId) {
 
     const { data, error } = await supabase.rpc("reset_user_password", { target_user_id: userId });
 
-    if (error || !data || !data.success) {
+    if (error || !data || !data.temp_password) {
         alert("Failed to reset password.");
-    } else {
-        alert(`Password reset! Temporary password: ${data.temp_password}`);
+        return;
     }
+
+    // Show temporary password in a modal for a few seconds
+    const tempPassword = data.temp_password;
+    
+    const passwordDisplay = document.createElement("div");
+    passwordDisplay.innerHTML = `
+        <div id="passwordModal" style="
+            position: fixed; 
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; padding: 15px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            text-align: center; z-index: 1000;">
+            <p><strong>Temporary Password:</strong></p>
+            <p style="font-size: 18px; font-weight: bold; color: red;">${tempPassword}</p>
+            <p>This password will disappear in 10 seconds.</p>
+        </div>
+    `;
+    
+    document.body.appendChild(passwordDisplay);
+
+    // Hide the modal after 10 seconds
+    setTimeout(() => {
+        document.getElementById("passwordModal").remove();
+    }, 10000);
 };
 
 // ✅ Delete User
