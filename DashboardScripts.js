@@ -88,7 +88,7 @@ document.head.insertAdjacentHTML('beforeend', `
     #userContainer {
       display: none; /* Initially hide the user container */
     }
-    .required-event { background-color: yellow !important; font-weight: bold; }
+    .required-event { background-color: #a8b314 !important; font-weight: bold; }
   </style>
 `);
 
