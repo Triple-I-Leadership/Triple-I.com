@@ -11,7 +11,7 @@ const pointsTableBody = document.getElementById("pointsTableBody");
 async function fetchUsers() {
     const { data, error } = await supabase
         .from("users")
-        .select("username, email, points, role")
+        .select("id, username, email, points, role")
         .order("username", { ascending: true });
 
     if (error) {
