@@ -188,3 +188,73 @@ document.getElementById("CODEventsButton").addEventListener("click", function() 
 document.getElementById("MORPointsButton").addEventListener("click", function() {
     window.location.href = 'MORPoints.html';
 });
+
+document.getElementById("ShowPointsButton").addEventListener("click", fetchPoints);
+
+let users = [];
+
+async function fetchPoints() {
+  const { data, error } = await supabase
+    .from("users")
+    .select("username, email, points, role");
+
+  if (error) {
+    console.error("Error fetching users:", error);
+    return;
+  }
+
+  console.log("Fetched Users (Points):", data); // Debugging log
+
+  users = data.map(user => ({
+    username: user.username,
+    email: user.email,
+    points: user.points,
+    role: user.role
+  }));
+
+  renderPoints();
+}
+
+function renderPoints() {
+  console.log("Rendering Users (Points):", users); // Debugging log
+
+  if (users.length === 0) {
+    console.warn("No users to display.");
+    return;
+  }
+
+  const container = document.getElementById("pointsContainer");
+  container.style.display = 'block'; // Show the container
+  container.innerHTML = `
+    <table border="1" class="user-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Points</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${users.map(user => `
+          <tr class="${getRoleClass(user.role)}">
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>${user.points}</td>
+            <td>${user.role}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+
+  console.log("Points displayed successfully.");
+}
+
+function getRoleClass(role) {
+  if (!role) return "";
+  const lowerRole = role.toLowerCase();
+  if (lowerRole === "officer") return "officer-user";
+  if (lowerRole === "member") return "member-user";
+  return "regular-user";
+}
