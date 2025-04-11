@@ -185,57 +185,6 @@ document.getElementById("CODEventsButton").addEventListener("click", function() 
     window.location.href = 'ChangeOrDeleteEvents.html';
 });
 
-let users = [];
-
-async function fetchUsers() {
-  const { data, error } = await supabase
-    .from("users")
-    .select("username, email, role, points")
-
-  if (error) {
-    console.error("Error fetching users:", error);
-    return;
-  }
-
-  console.log("Fetched Users:", data); // Debugging log
-
-  users = data.map(user => ({
-    points: user.points,
-    username: user.username,
-    email: user.email,
-    role: user.role
-  }));
-
-  renderUsers();
-}
-
-function renderUsers() {
-  const container = document.getElementById("points");
-  container.style.display = 'block';
-  container.innerHTML = `
-    <table border="1" class="user-table">
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Points</th>
-          <th>Role</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        ${users.map(user => `
-          <tr>
-            <td>${user.username}</td>
-            <td>${user.email}</td>
-            <td>${user.points}</td>
-            <td>${user.role}</td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-  `;
-}
-
-  console.log("Users displayed successfully.");
-}
+document.getElementById("MORPointsButton").addEventListener("click", function() {
+    window.location.href = 'MORPoints.html';
+});
