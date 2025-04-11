@@ -46,7 +46,7 @@ window.editPoints = async function (id, currentPoints) {
 
     const { error } = await supabase
         .from("users")
-        .update({ points: parseInt(newPoints) })
+        .update({ points: newPoints })
         .eq("id", id);
 
     if (error) {
