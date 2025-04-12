@@ -237,7 +237,7 @@ function renderPoints() {
       </thead>
       <tbody>
         ${points.map(user => `
-          <tr class="${getRoleClass(user.role)}">
+          <tr class="${getRoleClassPoints(user.role)}">
             <td>${user.username}</td>
             <td>${user.email}</td>
             <td>${user.points}</td>
@@ -251,7 +251,7 @@ function renderPoints() {
   console.log("Points displayed successfully.");
 }
 
-function getRoleClass(role) {
+function getRoleClassPoints(role) {
   if (!role) return "";
   const lowerRole = role.toLowerCase();
   if (lowerRole === "officer") return "officer-user";
