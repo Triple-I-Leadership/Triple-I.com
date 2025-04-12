@@ -191,7 +191,7 @@ document.getElementById("MORPointsButton").addEventListener("click", function() 
 
 document.getElementById("ShowPointsButton").addEventListener("click", fetchPoints);
 
-let users = [];
+let points = [];
 
 async function fetchPoints() {
   const { data, error } = await supabase
@@ -205,7 +205,7 @@ async function fetchPoints() {
 
   console.log("Fetched Users (Points):", data); // Debugging log
 
-  users = data.map(user => ({
+  points = data.map(user => ({
     username: user.username,
     email: user.email,
     points: user.points,
@@ -216,9 +216,9 @@ async function fetchPoints() {
 }
 
 function renderPoints() {
-  console.log("Rendering Users (Points):", users); // Debugging log
+  console.log("Rendering Users Points:", points); // Debugging log
 
-  if (users.length === 0) {
+  if (points.length === 0) {
     console.warn("No users to display.");
     return;
   }
@@ -236,7 +236,7 @@ function renderPoints() {
         </tr>
       </thead>
       <tbody>
-        ${users.map(user => `
+        ${points.map(user => `
           <tr class="${getRoleClass(user.role)}">
             <td>${user.username}</td>
             <td>${user.email}</td>
