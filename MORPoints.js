@@ -30,8 +30,8 @@ async function fetchUsers() {
             <td>${user.points}</td>
             <td>${user.role}</td>
             <td>
-                <button class="edit-btn" onclick="editPoints(${user.id}, ${user.points})">Edit</button>
-                <button class="delete-btn" onclick="deleteUser(${user.id})">Delete</button>
+                <button class="edit-btn" onclick="editPoints('${user.id}', ${user.points})">Edit</button>
+                <button class="delete-btn" onclick="deleteUser('${user.id}')">Delete</button>
             </td>
         `;
 
