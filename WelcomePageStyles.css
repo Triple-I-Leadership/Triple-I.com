@@ -28,7 +28,7 @@ a:active {
 }
 .top-bar {
   background-color: #000d3c; /* Dark top bar */
-  padding: 10px;
+  padding: 20px;
   display: flex;
   justify-content: center;
 }
