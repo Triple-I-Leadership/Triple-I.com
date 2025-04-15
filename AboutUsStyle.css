@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: #000d3c;
 }
 
 /* Hero Section */
@@ -13,7 +14,7 @@ body {
     background-image: url('imgs/III Banner 2.0.png'); /* Replace with your image */
     background-size: cover;
     background-position: center;
-    color: #8e918f;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,7 +35,7 @@ body {
 /* About Section */
 .about-content {
     padding: 20px;
-    background-color: #f4f4f4;
+    background-color: #000d3c;
 }
 
 .about-description h2 {
