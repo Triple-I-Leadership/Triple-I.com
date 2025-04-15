@@ -4,7 +4,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     background-color: #000d3c;
-    text-color: white;
+    color: white;
 }
 
 /* Hero Section */
@@ -79,8 +79,7 @@ body {
 
 .team-member p {
     font-size: 1rem;
-    color: #555;
-    max-width: 250px; /* Adjust this to your liking */
+    max-width: 500px; /* Adjust this to your liking */
     word-wrap: break-word;
     margin: 0 auto; /* Center under image */
 }
