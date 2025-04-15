@@ -78,6 +78,9 @@ body {
 .team-member p {
     font-size: 1rem;
     color: #555;
+    max-width: 120px; /* Adjust this to your liking */
+    word-wrap: break-word;
+    margin: 0 auto; /* Center under image */
 }
 
 .back-arrow img {
