@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Redirect to login page
         setTimeout(() => {
-            window.location.href = "Dashboard.html";
+            window.location.href = "../pages/Dashboard.html";
         }, 2000);
     });
 });

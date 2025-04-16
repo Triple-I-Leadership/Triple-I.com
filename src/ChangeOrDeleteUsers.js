@@ -122,5 +122,5 @@ window.deleteUser = async function (id) {
 fetchUsers();
 
 document.getElementById("Go_Back").addEventListener("click", function() {
-    window.location.href = 'Dashboard.html';
+    window.location.href = '../pages/Dashboard.html';
 });

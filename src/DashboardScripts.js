@@ -178,15 +178,15 @@ function renderEvents() {
 };
 
 document.getElementById("AddEventsButton").addEventListener("click", function() {
-    window.location.href = 'AddEventsPage.html';
+    window.location.href = '../pages/AddEventsPage.html';
 });
 
 document.getElementById("CODEventsButton").addEventListener("click", function() {
-    window.location.href = 'ChangeOrDeleteEvents.html';
+    window.location.href = '../pages/ChangeOrDeleteEvents.html';
 });
 
 document.getElementById("MORPointsButton").addEventListener("click", function() {
-    window.location.href = 'MORPoints.html';
+    window.location.href = '../pages/MORPoints.html';
 });
 
 document.getElementById("ShowPointsButton").addEventListener("click", fetchPoints);

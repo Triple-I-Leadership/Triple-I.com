@@ -62,7 +62,7 @@ async function checkSession() {
       }, AUTO_LOGOUT_HOURS * 60 * 60 * 1000); // Convert hours to milliseconds
     } else {
       console.log('No user is logged in.');
-      window.location.href = 'LoginPage.html';
+      window.location.href = '../pages/LoginPage.html';
     }
   } catch (err) {
     console.error('Unexpected error in checkSession:', err);
@@ -108,7 +108,7 @@ async function logoutUser() {
     console.log("User logged out due to inactivity.");
     
     // Redirect to the welcome page
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   } catch (err) {
     console.error("An unexpected error occurred during logout:", err);
   }

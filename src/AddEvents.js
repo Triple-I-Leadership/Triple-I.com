@@ -71,5 +71,5 @@ document.getElementById("submitEvent").addEventListener("click", async function(
 });
 
 document.getElementById("Go_Back").addEventListener("click", function() {
-    window.location.href = 'Dashboard.html';
+    window.location.href = '../pages/Dashboard.html';
 });

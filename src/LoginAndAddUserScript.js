@@ -59,6 +59,6 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         document.getElementById('errorMessage').innerText = error.message;
     } else {
         console.log('User logged in:', user);
-        window.location.href = 'Dashboard.html';
+        window.location.href = '../pages/Dashboard.html';
     }
 });
