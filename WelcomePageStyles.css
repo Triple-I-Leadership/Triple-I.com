@@ -63,13 +63,6 @@ a:active {
   width: 100%;
   border-radius: 8px;
 }
-
-.slide img {
-    width: 100%;
-    display: block;
-    border-radius: 8px;
-}  
-
 .controls {
     position: absolute;
     top: 50%;
