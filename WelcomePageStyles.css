@@ -60,9 +60,9 @@ a:active {
 
 .slide.active {
   display: block; /* Only show the active slide */
-  width: 100%;
+  width: 600px;
   border-radius: 8px;
-  height: auto;
+  height: 600px;
 }
 
 .controls {
