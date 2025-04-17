@@ -32,12 +32,13 @@ a:active {
   display: flex;
   justify-content: center;
 }
+
 .top-bar-tab1, .top-bar-tab2, .top-bar-tab3, .top-bar-tab4, .top-bar-tab5, .top-bar-tab6, {
   background-color: #4b9cd3; /* Dark top bar */
   width: 100px;
   height: 100px;
   display: inline-block; /* Allow for inline elements to behave like block elements */
-  margin: 0 20px; /* Add some spacing between tabs */
+  margin: 50px; /* Add some spacing between tabs */
 }
 .slider-container {
   width: 100%;
