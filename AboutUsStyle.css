@@ -73,7 +73,7 @@ body {
 .team-member img {
     width: 150px;
     height: 150px;
-    border-radius: 50%;
+    border-radius: 100%;
     object-fit: cover;
     margin-bottom: 10px;
 }
