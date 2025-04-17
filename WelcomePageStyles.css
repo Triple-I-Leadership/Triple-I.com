@@ -39,7 +39,8 @@ a:active {
   margin: 0 20px; /* Add some spacing between tabs */
 }
 .slider-container {
-  width: 100%;
+  width: 600px;
+  height: 600px
   max-width: 800px;
   margin: auto;
   overflow: hidden;
@@ -89,7 +90,7 @@ a:active {
 }
 .top-bar-tab-logo img {
     width: 100%;
-    height: 100px;
-    size: 100px;
+    height: 250px;
+    size: 300px;
     display: inline-block;
 }
