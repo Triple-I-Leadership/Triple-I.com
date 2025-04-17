@@ -34,9 +34,9 @@ a:active {
 }
 .top-bar-tab1, .top-bar-tab2, .top-bar-tab3, .top-bar-tab4, .top-bar-tab5, .top-bar-tab6, .top-bar-tab-logo {
   background-color: #4b9cd3; /* Dark top bar */
-  padding: 5px;
+  padding: 0px;
   display: inline-block; /* Allow for inline elements to behave like block elements */
-  margin: 0 15px; /* Add some spacing between tabs */
+  margin: 0 20px; /* Add some spacing between tabs */
 }
 .slider-container {
     position: relative;
