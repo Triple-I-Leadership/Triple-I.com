@@ -64,7 +64,7 @@ body {
 .team-member {
   flex: 0 1 calc(50% - 20px); /* two items per row */
   box-sizing: border-box;
-  background-color: #f9f9f9; /* optional styling */
+  background-color: #000d3c; /* optional styling */
   padding: 20px;
   border-radius: 10px;
   text-align: center;
