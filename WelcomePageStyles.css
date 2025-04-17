@@ -62,7 +62,9 @@ a:active {
   display: block; /* Only show the active slide */
   width: 100%;
   border-radius: 8px;
+  height: auto;
 }
+
 .controls {
     position: absolute;
     top: 50%;
