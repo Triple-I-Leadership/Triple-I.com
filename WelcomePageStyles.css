@@ -39,14 +39,14 @@ a:active {
   margin: 0 20px; /* Add some spacing between tabs */
 }
 .slider-container {
-    position: relative;
-    width: 80%;
-    max-width: 600px;
-    margin: 20px auto;
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  overflow: hidden;
 }
 
 .slider {
-    display: none;
+    display: block;
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
