@@ -78,5 +78,4 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     } else {
       window.location.href = "Profile.html";
     }
-  }
-}); // <- make sure this closing brace exists!
+  }); // <- make sure this closing brace exists!
