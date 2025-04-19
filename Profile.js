@@ -71,7 +71,7 @@ async function fetchTotalPoints() {
     }
 
     const totalPoints = data.reduce((sum, row) => sum + row.points, 0);
-    document.getElementById("points-container").textContent = totalPoints;
+    document.getElementById("totalPoints").textContent = totalPoints;
 }
 
 // Run everything
