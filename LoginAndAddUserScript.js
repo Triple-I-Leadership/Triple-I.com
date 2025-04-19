@@ -55,13 +55,13 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   } else {
     console.log('User logged in:', user);
 
-    const userId = user.id;
-
     const { data, error: roleError } = await supabase
       .from("users")
       .select("role")
       .eq("id", userId)
       .single();
+
+      const userId = user.id;
 
     if (roleError || !data) {
       console.error("Failed to fetch user role:", roleError?.message);
@@ -71,10 +71,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     const role = data.role.toLowerCase();
 
-    if (role === "admin" || role === "officer") {
+    if (role === "advisor" || role === "officer") {
       window.location.href = "Dashboard.html";
     } else {
-      window.location.href = "MemberHome.html";
+      window.location.href = "Profile.html";
     }
   }
 }); // <- make sure this closing brace exists!
