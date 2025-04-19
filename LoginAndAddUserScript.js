@@ -77,12 +77,13 @@ if (error) {
     }
 
     const role = data.role;
+    const ROLE = role.toLowerCase()
 
     // Redirect based on role
-    if (role === "admin") {
+    if (ROLE === "officer" || ROLE === "advisor") {
         window.location.href = "Dashboard.html";
     } else {
-        window.location.href = "MemberHome.html";
+        window.location.href = "Profile.html";
     }
 }
 
