@@ -103,7 +103,7 @@ let events = [];
 async function fetchEvents() {
   const { data, error } = await supabase
     .from("calendar_events")
-    .select("id, user_id, event, date, end_date, required")
+    .select("id, user_id, event, date, end_date, required, description")
     .order("date", {ascending: true}); // Orders by earliest date to latest date which should technicially be in ID order but maybe not
   
   if (error) {
@@ -119,7 +119,8 @@ async function fetchEvents() {
     event: event.event,
     start_date: convertToLocalTime(event.date),  // ✅ Convert to local time
     end_date: convertToLocalTime(event.end_date), // ✅ Convert to local time
-    required: event.required // Highlight if required
+    required: event.required, // Highlight if required
+    description: event.description
   }));
 
   renderEvents();
@@ -157,6 +158,7 @@ function renderEvents() {
           <th>Start Date</th>
           <th>End Date</th>
           <th>Required</th>
+          <th>Description</th>
         </tr>
       </thead>
       <tbody>
@@ -168,6 +170,7 @@ function renderEvents() {
             <td>${event.start_date}</td>
             <td>${event.end_date}</td>
             <td>${event.required}</td>
+            <td>${event.description}</td>
           </tr>
         `).join('')}
       </tbody>
