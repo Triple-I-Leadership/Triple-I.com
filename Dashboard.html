@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          includedLanguages: 'en,de,fr,es,it,ru,ar,ko,zh-CH,nl,la,ms,mn,pt,ne,pl,hu,ga,hi,iw,el,tl,cs,hr,da,zh-TW,is',  // Specify languages you want
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+        }, 'google_translate_element');
+      }
+    </script>
+    
+  <script type="text/javascript" 
+      src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src='ErrorPageScript.js' defer></script>
@@ -20,6 +33,9 @@ button:hover { background-color: #575757; }
   </style>
 </head>
 <body>
+
+  <div id="goodle_translate_element"></div>
+  
   <div class="sidebar">
     <h2>Dashboard</h2>
     <a href="#users">Users</a>
