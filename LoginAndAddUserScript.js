@@ -45,22 +45,23 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     email = data.email;
   }
 
-  const { user, session, error } = await supabase.auth.signInWithPassword({
+  const { data: loginData, error } = await supabase.auth.signInWithPassword({
     email: email,
     password: password,
   });
-
-  if (error) {
-    document.getElementById('errorMessage').innerText = error.message;
-  } else {
-    console.log('User logged in:', user);
-    
-    const userId = user?.id; // grab the user ID safely
+  
+    if (error) {
+      document.getElementById('errorMessage').innerText = error.message;
+      return;
+    }
+  
+    const user = loginData.user;
+    console.log("Logged in user:", user);
     
     const { data, error: roleError } = await supabase
       .from("users")
       .select("role")
-      .eq("id", userId) // pass the actual ID!
+      .eq("id", user.id) // pass the actual ID!
       .single();
 
 
