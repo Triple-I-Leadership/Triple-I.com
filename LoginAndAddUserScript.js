@@ -63,14 +63,14 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     console.log('User logged in:', user);
     
     // Now safe to use user.id
-    const userId = user.id;
+    const userId = user.email;
     
 
     // Fetch the role from your 'users' table
     const { data, error: roleError } = await supabase
         .from("users")
         .select("role")
-        .eq("id", userId)
+        .eq("email", userId)
         .single();
 
     if (roleError || !data) {
