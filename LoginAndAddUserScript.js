@@ -49,19 +49,22 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         // Use the retrieved email for authentication
         email = data.email;
     }
-    // Sign in with email/password
-    const { user, session, error } = await supabase.auth.signInWithPassword({
+        // Sign in with email/password
+      const { user, session, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
     });
 
-if (error) {
-    document.getElementById('errorMessage').innerText = error.message;
-} else {
+    if (error || !user) {
+        document.getElementById('errorMessage').innerText = error?.message || "Login failed.";
+        return;
+    }
+    
     console.log('User logged in:', user);
-
-    // Get user ID
+    
+    // Now safe to use user.id
     const userId = user.id;
+    
 
     // Fetch the role from your 'users' table
     const { data, error: roleError } = await supabase
