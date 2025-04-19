@@ -31,34 +31,58 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
     let email = userInput;
 
-    // Check if the user entered a username instead of an email
+      // Check if the user entered a username instead of an email
     if (!userInput.includes('@')) {
         // Look up the user by username in Supabase
         const { data, error } = await supabase
-            .from('users')  // Adjust table name if necessary
+            .from('users')
             .select('email')
-            .eq('username', userInput)
-            .single();
-
+            .eq('username', userInput)  // Good usage in JS client!
+            .single();  // Make sure you're only expecting one result
+    
         if (error || !data) {
+            console.error("Error looking up username:", error);
             document.getElementById('errorMessage').innerText = 'Invalid username or email.';
             return;
         }
-
+    
         // Use the retrieved email for authentication
         email = data.email;
     }
-
     // Sign in with email/password
     const { user, session, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
     });
 
-    if (error) {
-        document.getElementById('errorMessage').innerText = error.message;
-    } else {
-        console.log('User logged in:', user);
-        window.location.href = 'Dashboard.html';
+if (error) {
+    document.getElementById('errorMessage').innerText = error.message;
+} else {
+    console.log('User logged in:', user);
+
+    // Get user ID
+    const userId = user.id;
+
+    // Fetch the role from your 'users' table
+    const { data, error: roleError } = await supabase
+        .from("users")
+        .select("role")
+        .eq("id", userId)
+        .single();
+
+    if (roleError || !data) {
+        console.error("Failed to fetch user role:", roleError?.message);
+        document.getElementById('errorMessage').innerText = "Unable to verify user role.";
+        return;
     }
-});
+
+    const role = data.role;
+
+    // Redirect based on role
+    if (role === "admin") {
+        window.location.href = "Dashboard.html";
+    } else {
+        window.location.href = "MemberHome.html";
+    }
+}
+
