@@ -85,5 +85,5 @@ if (error) {
     } else {
         window.location.href = "Profile.html";
     }
-}
-
+  }
+});
