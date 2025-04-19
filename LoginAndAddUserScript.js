@@ -54,12 +54,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     document.getElementById('errorMessage').innerText = error.message;
   } else {
     console.log('User logged in:', user);
-
+    
+    const userId = user?.id; // grab the user ID safely
+    
     const { data, error: roleError } = await supabase
       .from("users")
       .select("role")
-      .eq("id")
+      .eq("id", userId) // pass the actual ID!
       .single();
+
 
     if (roleError || !data) {
       console.error("Failed to fetch user role:", roleError?.message);
