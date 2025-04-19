@@ -61,6 +61,7 @@ body {
   flex-wrap: wrap;
   gap: 20px; /* space between profiles */
   justify-content: center; /* center the rows */
+  color: white;
 }
 
 .team-member {
