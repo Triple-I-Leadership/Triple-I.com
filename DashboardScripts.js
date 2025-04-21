@@ -192,6 +192,10 @@ document.getElementById("MORPointsButton").addEventListener("click", function() 
     window.location.href = 'MORPoints.html';
 });
 
+document.getElementById("CODUserButton").addEventListener("click", function() {
+    window.location.href = 'CODUsers.html';
+});
+
 document.getElementById("ShowPointsButton").addEventListener("click", fetchPoints);
 
 let points = [];
