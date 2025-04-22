@@ -192,7 +192,7 @@ document.getElementById("MORPointsButton").addEventListener("click", function() 
     window.location.href = 'MORPoints.html';
 });
 
-document.getElementById("CODUserButton").addEventListener("click", function() {
+document.getElementById("CODUsersButton").addEventListener("click", function() {
     window.location.href = 'CODUsers.html';
 });
 
