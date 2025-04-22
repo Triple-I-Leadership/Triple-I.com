@@ -14,5 +14,19 @@
     <a href="index.html" class="back-button">Go Back to Home</a>
   </div>
   <script src='ErrorPageScript.js'></script>
+    <script>
+    const errorDetails = JSON.parse(sessionStorage.getItem("errorDetails"));
+
+    if (errorDetails) {
+      document.getElementById("errorDetails").innerHTML = `
+        <p><strong>Message:</strong> ${errorDetails.message}</p>
+        <p><strong>Stack Trace:</strong><pre>${errorDetails.stack}</pre></p>
+      `;
+    } else {
+      document.getElementById("errorDetails").innerText = "No error details available.";
+    }
+  </script>
+</body>
+</html>
 </body>
 </html>
