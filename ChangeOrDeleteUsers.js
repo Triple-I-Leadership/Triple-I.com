@@ -19,7 +19,7 @@ async function fetchUsers() {
         return;
     }
 
-    userTableBody.innerHTML = ""; // Clear previous entries
+    userTableBody.innerHTML = ''; // Clear previous entries
 
     data.forEach(user => {
         const row = document.createElement("tr");
