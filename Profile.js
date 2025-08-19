@@ -1,7 +1,7 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-const supabaseUrl = 'https://fvypinxntxcpebvrrqpv.supabase.co';
-const supabaseKey = 'your-supabase-key';  // Secure this in production
+const supabaseUrl = SUPABASEURL;
+const supabaseKey = SUPABASEKEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Fetch current user
