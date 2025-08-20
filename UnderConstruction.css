@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    /* Using a gradient for the background */
+    background: linear-gradient(to right, #7BAFD4, #008080); 
+    color: #fff; /* White text for contrast on the dark background */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white container */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.social-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #fff; /* White links for visibility */
+    font-weight: bold;
+}
