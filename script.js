@@ -1,9 +1,3 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-// Initialize Supabase client
-const supabaseUrl = SUPABASEURL;
-const supabaseKey = SUPABASEKEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
 window.showloader = function(destination) {
   // Create a loading div if it doesn't exist
   if (!document.getElementById("loading-screen")) {
