@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     /* Using a gradient for the background */
-    background: linear-gradient(to right, #7BAFD4, #008080); 
+    background: linear-gradient(to right, #7BAFD4, #000d3c); 
     color: #fff; /* White text for contrast on the dark background */
     display: flex; 
     justify-content: center;
