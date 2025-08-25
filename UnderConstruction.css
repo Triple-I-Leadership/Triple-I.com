@@ -33,32 +33,26 @@ p {
     line-height: 1.6;
 }
 
+/* For all links */
 a {
-    font-size: 1.1em;
-    line-height: 1.6;
-    text-decoration: none;
+  text-decoration: none; /* Removes the underline */
+  color: none; /* Inherits color from parent element */
 }
 
+/* For visited links */
 a:visited {
-    font-size: 1.1em;
-    line-height: 1.6;
-    text-decoration: none;
+  text-decoration: none;
+  color: #FFFFFF; /* Set to the same color as unvisited links */
 }
 
+/* For hover state */
 a:hover {
-    font-size: 1.1em;
-    line-height: 1.6;
-    text-decoration: none;
+  text-decoration: none;
+  color: blue; /* Change this to your desired hover color */
 }
 
+/* For active state */
 a:active {
-    font-size: 1.1em;
-    line-height: 1.6;
-    text-decoration: none;
-}
-
-a:link {
-    font-size: 1.1em;
-    line-height: 1.6;
-    text-decoration: none;
+  text-decoration: none;
+  color: #FFFFFF; /* Change this to your desired active color */
 }
