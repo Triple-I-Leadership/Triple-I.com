@@ -42,17 +42,17 @@ a {
 /* For visited links */
 a:visited {
   text-decoration: none;
-  color: #FFFFFF; /* Set to the same color as unvisited links */
+  color: none; /* Set to the same color as unvisited links */
 }
 
 /* For hover state */
 a:hover {
   text-decoration: none;
-  color: blue; /* Change this to your desired hover color */
+  color: none; /* Change this to your desired hover color */
 }
 
 /* For active state */
 a:active {
   text-decoration: none;
-  color: #FFFFFF; /* Change this to your desired active color */
+  color: none; /* Change this to your desired active color */
 }
