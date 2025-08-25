@@ -44,8 +44,6 @@ a {
     font-family: Arial, sans-serif;
     text-decoration: none; /* Removes the underline */
     color: #721c24; /* Inherits color from parent element */
-    font-size: 1.1em;
-    line-height: 1.6;
 }
 
 /* For visited links */
