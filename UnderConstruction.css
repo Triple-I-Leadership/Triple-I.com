@@ -35,6 +35,7 @@ p {
 
 /* For all links */
 a {
+    font-family: Arial, sans-serif;
     text-decoration: none; /* Removes the underline */
     color: #FFFFFF; /* Inherits color from parent element */
     font-size: 1.1em;
