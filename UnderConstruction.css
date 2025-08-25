@@ -38,3 +38,27 @@ a {
     line-height: 1.6;
     text-decoration: none;
 }
+
+a:visited {
+    font-size: 1.1em;
+    line-height: 1.6;
+    text-decoration: none;
+}
+
+a:hover {
+    font-size: 1.1em;
+    line-height: 1.6;
+    text-decoration: none;
+}
+
+a:active {
+    font-size: 1.1em;
+    line-height: 1.6;
+    text-decoration: none;
+}
+
+a:link {
+    font-size: 1.1em;
+    line-height: 1.6;
+    text-decoration: none;
+}
