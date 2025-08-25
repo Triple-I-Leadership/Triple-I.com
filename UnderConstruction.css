@@ -33,7 +33,7 @@ p {
     line-height: 1.6;
 }
 
-.social-links a {
+a {
     margin: 0 10px;
     text-decoration: none;
     color: #fff; /* White links for visibility */
