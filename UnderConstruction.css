@@ -34,8 +34,7 @@ p {
 }
 
 a {
-    margin: 0 10px;
+    font-size: 1.1em;
+    line-height: 1.6;
     text-decoration: none;
-    color: #fff; /* White links for visibility */
-    font-weight: bold;
 }
