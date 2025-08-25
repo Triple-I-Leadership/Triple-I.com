@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     /* Using a gradient for the background */
     background: linear-gradient(to right, #7BAFD4, #000d3c); 
-    color: #fff; /* White text for contrast on the dark background */
+    color: #FFFFFF; /* White text for contrast on the dark background */
     display: flex; 
     justify-content: center;
     align-items: center;
@@ -35,8 +35,10 @@ p {
 
 /* For all links */
 a {
-  text-decoration: none; /* Removes the underline */
-  color: none; /* Inherits color from parent element */
+    text-decoration: none; /* Removes the underline */
+    color: #FFFFFF; /* Inherits color from parent element */
+    font-size: 1.1em;
+    line-height: 1.6;
 }
 
 /* For visited links */
