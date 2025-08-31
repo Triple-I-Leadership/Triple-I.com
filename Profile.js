@@ -1,9 +1,18 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-const supabaseUrl = SUPABASEURL;
-const supabaseKey = SUPABASEKEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
-
+async function getSupabaseConfig() {
+    const res = await fetch('/.netlify/functions/supabase');
+    const { url, key } = await res.json();
+    console.log('Supabase URL:', url);
+    console.log('Supabase Key:', key);
+  
+    // Now you can initialize your client
+    const supabase = createClient(url, key);
+    return supabase;
+  }
+  
+  getSupabaseConfig();
+  
 // Fetch current user
 async function getCurrentUser() {
     const { data, error } = await supabase.auth.getUser();
