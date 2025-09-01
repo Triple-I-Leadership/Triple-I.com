@@ -7,7 +7,7 @@ const eventDetails = document.getElementById('event-details');
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 async function getSupabaseConfig() {
-  const res = await fetch('/.netlify/functions/supabase');
+  const res = await fetch('/.netlify/functions/ServerlessFunctions.js');
   const { url, key } = await res.json();
   console.log('Supabase URL:', url);
   console.log('Supabase Key:', key);
