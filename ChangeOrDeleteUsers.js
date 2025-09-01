@@ -9,9 +9,9 @@ async function getSupabaseConfig() {
     // Now you can initialize your client
     const supabase = createClient(url, key);
     return supabase;
-}
+};
 
-getSupabaseConfig()
+await getSupabaseConfig()
 
 const userTableBody = document.getElementById("userTableBody");
 

@@ -15,9 +15,9 @@ async function getSupabaseConfig() {
   // Now you can initialize your client
   const supabase = createClient(url, key);
   return supabase;
-}
+};
 
-getSupabaseConfig()
+await getSupabaseConfig()
 
 let currentDate = new Date();
 let selectedDate = null;

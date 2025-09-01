@@ -9,9 +9,9 @@ async function getSupabaseConfig() {
   // Now you can initialize your client
   const supabase = createClient(url, key);
   return supabase;
-}
+};
 
-getSupabaseConfig();
+await getSupabaseConfig();
 
 const hashParams = new URLSearchParams(window.location.hash.substring(1));
 const accessToken = hashParams.get('access_token');
