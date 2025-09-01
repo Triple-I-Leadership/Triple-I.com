@@ -1,4 +1,4 @@
-import supabase from "./supabase";
+import supabase from "./supabase.js";
 
 // Auto logout time (in hours)
 const AUTO_LOGOUT_HOURS = 2;

@@ -1,4 +1,4 @@
-import supabase from "./supabase";
+import supabase from "./supabase.js";
 
 document.getElementById("submitEvent").addEventListener("click", async function() {
     const eventName = document.getElementById("eventName").value.trim();

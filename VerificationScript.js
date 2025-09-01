@@ -1,4 +1,4 @@
-import supabase from "./supabase";nfig();
+import supabase from "./supabase.js";
   
 
 document.addEventListener("DOMContentLoaded", async () => {

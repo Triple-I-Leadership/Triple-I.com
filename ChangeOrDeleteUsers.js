@@ -1,4 +1,4 @@
-import supabase from "./supabase";
+import supabase from "./supabase.js";
 
 const userTableBody = document.getElementById("userTableBody");
 

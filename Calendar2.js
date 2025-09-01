@@ -4,7 +4,7 @@ const prevButton = document.getElementById('prev');
 const nextButton = document.getElementById('next');
 const eventDetails = document.getElementById('event-details');
 
-import supabase from "./supabase";
+import supabase from "./supabase.js";
 
 let currentDate = new Date();
 let selectedDate = null;
