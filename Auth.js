@@ -1,17 +1,4 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-async function getSupabaseConfig() {
-  const res = await fetch('/.netlify/functions/ServerlessFunctions.js');
-  const { url, key } = await res.json();
-  console.log('Supabase URL:', url);
-  console.log('Supabase Key:', key);
-
-  // Now you can initialize your client
-  const supabase = createClient(url, key);
-  return supabase;
-};
-
-await getSupabaseConfig()
+import supabase from "./supabase";
 
 // Auto logout time (in hours)
 const AUTO_LOGOUT_HOURS = 2;
