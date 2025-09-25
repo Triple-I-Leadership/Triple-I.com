@@ -66,8 +66,9 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const role = data.role.toLowerCase();
 
     if (role === "advisor" || role === "officer") {
-      window.location.href = "Dashboard.html";
-    } else {
-      window.location.href = "Profile.html";
-    }
+      window.location.href = "/Triple-I.com/Dashboard/Leader/";
+    } if (role === "member" || role === "Member") {
+      window.location.href = "/Triple-I.com/Dashboard/Member/";
+    } if (role === "visitor" || role === "Visitor") 
+      window.location.href = "/Triple-I.com/Dashboard/Visitor/"; 
   }); // <- make sure this closing brace exists!
