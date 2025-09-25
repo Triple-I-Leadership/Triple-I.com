@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,de,fr,es,it,ru,ar,ko,zh-CH,nl,la,ms,mn,pt,ne,pl,hu,ga,hi,iw,el,tl,cs,hr,da,zh-TW,is',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/Member/ProfileStyle.css">
+  <title>Settings</title>
+</head>
+<body>
+  <div id="google_translate_element"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Settings</h2>
+    <a href="/Member/">Profile</a>
+    <a href="/Triple-I.com/">Logout</a>
+  </div>
+
+  <!-- Main Settings Section -->
+  <div class="main">
+    <div class="card">
+      <h2>Account Settings</h2>
+      <form>
+        <label for="username">Change Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter new username">
+
+        <label for="email">Change Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter new email">
+
+        <label for="password">Change Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter new password">
+
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
