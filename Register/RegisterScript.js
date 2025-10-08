@@ -50,7 +50,7 @@ async function handleSignup(event) {
     await sendVerificationEmail(email, verificationCode);
 
     // Redirect to the verification page
-    window.location.href = `Verification.html?email=${encodeURIComponent(email)}`;
+    window.location.href = `/Triple-I.com/Dashboard/Visitor/`;
 }
 
 async function sendVerificationEmail(email, code) {

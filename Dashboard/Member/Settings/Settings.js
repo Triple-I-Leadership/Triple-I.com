@@ -1,9 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
-
-// Supabase client
-const supabaseUrl = 'https://YOUR_SUPABASE_URL.supabase.co';
-const supabaseKey = 'YOUR_SUPABASE_ANON_KEY';
-const supabase = createClient(supabaseUrl, supabaseKey);
+import supabase from '../supabase.js'
 
 // Grab form elements
 const usernameInput = document.getElementById('username');
