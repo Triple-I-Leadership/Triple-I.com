@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to right, #7BAFD4, #000d3c);
+  background: linear-gradient(144deg,rgba(123, 175, 212, 1) 0%, rgba(0, 32, 120, 1) 100%);
   color: #FFFFFF; /* Light text color for contrast */
   font-family: none; /* TBD for now :P */
 }
