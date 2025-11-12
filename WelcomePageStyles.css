@@ -1,5 +1,5 @@
 body {
-  background-color: #000d3c; /* Dark background */
+    background: linear-gradient(to right, #7BAFD4, #000d3c);
   color: #FFFFFF; /* Light text color for contrast */
   font-family: none; /* TBD for now :P */
 }
@@ -27,14 +27,12 @@ a:active {
   color: #FFFFFF; /* Change this to your desired active color */
 }
 .top-bar {
-  background-color: #4b9cd3; /* Dark top bar */
   padding: 20px;
   display: flex;
   justify-content: center;
 }
 
 .top-bar-tab1, .top-bar-tab2, .top-bar-tab3, .top-bar-tab4, .top-bar-tab5, .top-bar-tab6, .top-bar-logo {
-  background-color: #4b9cd3; /* Dark top bar */
   width: 100px;
   height: 100px;
   display: inline-block; /* Allow for inline elements to behave like block elements */
