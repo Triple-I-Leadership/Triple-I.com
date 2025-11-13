@@ -15,6 +15,3 @@ async function sendMagicLink(email) {
     }
   }
   
-  // usage
-  sendMagicLink('urloudgamer@gmail.com');
-  
